@@ -432,6 +432,7 @@ class Preprocessing(object):
             self._show_img('_draw_axis', tmp_img2)
 
     # ==========================================================================
+    # if self.origin_width 부분 수정 - 재원
     def approx_axis(self, needed_axis, find_min_axis, flag):
 
         """ 효율적으로 필요한 axis의 개수를 구하기 위해 list의 값들을 압축합니다.
@@ -456,10 +457,10 @@ class Preprocessing(object):
             final_axis.add(0)
         if self.origin_width - max(final_axis) > find_min_axis:
             if(flag==0):
-                if(self.origin_width<w):
+                if(self.origin_width<w and self.origin_width>=0):
                     final_axis.add(self.origin_width)
             else:
-                if(self.origin_width<h):
+                if(self.origin_width<h and self.origin_width>=0):
                     final_axis.add(self.origin_width)
 
         final_axis = sorted(list(final_axis))  # len(final_axis) - 1 개의 셀이 필요함

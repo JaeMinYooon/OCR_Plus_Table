@@ -51,11 +51,8 @@ def Cmain(imagePath, type, model=0):
     print(index_list)
     #fontsize = getFontsize(coordinateList)
     root = set_base_xml(index_list, coordinateList)
-    #TFdata = []
-    #TFdata = TFmain(model)
-    #root = make_input(root, TFdata)
-    #makeExcel(root,fontsize)
     makeExcel(root,imagePath)
+
     main_process = Preprocessing.Preprocessing('document.jpg', verbose='v')
     main_process.process()
     sortImages = main_process.cal_cell_needed()
@@ -64,6 +61,6 @@ def Cmain(imagePath, type, model=0):
 
 if __name__ == '__main__':
     #model = load_Model()
-    Cmain(imagePath='./testImage/etax001', type='.png')
+    Cmain(imagePath='test4', type='.jpg')
 
 

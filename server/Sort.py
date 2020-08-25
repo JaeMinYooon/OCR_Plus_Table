@@ -14,8 +14,10 @@ def set_base_xml(index_list, all_text_list):
     for i, i_name in enumerate(index_list['index']):
 
         #if i_name == 'B5':
-        sort_text, df = sort_in_cell(index_list['value'][i],df)
-
+        if all_text_list:
+            sort_text, df = sort_in_cell(index_list['value'][i],df)
+        else:
+            sort_text = []
         #셀 노드 추가
         cell_element = Element("".join(map(str, i_name)))
         root.append(cell_element)
