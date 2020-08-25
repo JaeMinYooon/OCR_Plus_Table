@@ -3,7 +3,7 @@ import numpy as np
 import glob,os
 from ImageProcessing import *
 from Contour import *
-from MakeTable.File import *
+from File import *
 from MakeTable import *
 from Sort import *
 from mExcel import *
@@ -64,6 +64,6 @@ def Cmain(imagePath, type, model=0):
 
 if __name__ == '__main__':
     #model = load_Model()
-    Cmain(imagePath='ete1', type='.png')
+    Cmain(imagePath='tw1', type='.png')
 
 
