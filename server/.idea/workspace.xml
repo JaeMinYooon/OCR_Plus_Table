@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c85d0f43-dfc6-42e9-8dcc-8c9c42b0a916" name="Default Changelist" comment="" />
+    <list default="true" id="c85d0f43-dfc6-42e9-8dcc-8c9c42b0a916" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contour.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/contour.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/document.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/document.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ete1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ete1.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/ete1.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/result.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/result.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/table.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/table.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tw1.png" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -73,22 +83,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1598339118646" />
-    <state width="954" height="210" key="GridCell.Tab.0.bottom" timestamp="1598339075843">
+    <state width="1515" height="210" key="GridCell.Tab.0.bottom" timestamp="1598343824822">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="954" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1598339075843" />
-    <state width="954" height="210" key="GridCell.Tab.0.center" timestamp="1598339075843">
+    <state width="1515" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1598343824822" />
+    <state width="1515" height="210" key="GridCell.Tab.0.center" timestamp="1598343824822">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="954" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1598339075843" />
-    <state width="954" height="210" key="GridCell.Tab.0.left" timestamp="1598339075843">
+    <state width="1515" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1598343824822" />
+    <state width="1515" height="210" key="GridCell.Tab.0.left" timestamp="1598343824822">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="954" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1598339075843" />
-    <state width="954" height="210" key="GridCell.Tab.0.right" timestamp="1598339075843">
+    <state width="1515" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1598343824822" />
+    <state width="1515" height="210" key="GridCell.Tab.0.right" timestamp="1598343824822">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="954" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1598339075843" />
+    <state width="1515" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1598343824822" />
     <state x="279" y="58" key="SettingsEditor" timestamp="1598339149677">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -97,5 +107,21 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="471" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1598337769671" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ImageProcessing.py</url>
+          <line>5</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MakeTable/File.py</url>
+          <line>4</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

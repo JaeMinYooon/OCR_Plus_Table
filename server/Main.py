@@ -64,6 +64,6 @@ def Cmain(imagePath, type, model=0):
 
 if __name__ == '__main__':
     #model = load_Model()
-    Cmain(imagePath='tw1', type='.png')
+    Cmain(imagePath='./testImage/etax001', type='.png')
 
 
