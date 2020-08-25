@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import glob,os
 from Main import *
-from File import *
+from MakeTable.File import *
 from Contour import *
 def processImage(image):
     ''' 다섯 단계의 이미지 처리(Image precessing)를 힙니다.

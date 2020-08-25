@@ -3,7 +3,7 @@ import numpy as np
 import glob,os
 from ImageProcessing import *
 from Contour import *
-from File import *
+from MakeTable.File import *
 from MakeTable import *
 from Sort import *
 from mExcel import *
