@@ -24,11 +24,11 @@ def processImage(image):
     # wrappingImg = cv2.resize(wrappingImg, (4*wid,4*hei),interpolation=cv2.INTER_AREA)
     imageGray = getGrayImage(wrappingImg) # 이미지 회색으로 바꿔주는 것
     imageBrightness = getBrightness(imageGray)
-    cv2.imshow("birght", cv2.resize(imageBrightness, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
-    cv2.waitKey(0)
+    # cv2.imshow("birght", cv2.resize(imageBrightness, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
+    # cv2.waitKey(0)
     imageErosion = getAdaptiveThreshold(imageBrightness) # 이미지를 검은색 아니면 흰색을 바꿔주기 + 블러 처리
-    cv2.imshow("thresh", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
-    cv2.waitKey(0)
+    # cv2.imshow("thresh", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
+    # cv2.waitKey(0)
     # Long line remove
     ##imageLineRemoved = removeLongLine(imageThreshold)
     # Morph Close
@@ -40,14 +40,14 @@ def processImage(image):
     # imageErosion = getErosion(imageErosion)
 
     imageErosion = getClosing(imageErosion)
-    cv2.imshow("closing", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
-    cv2.waitKey(0)
+    # cv2.imshow("closing", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
+    # cv2.waitKey(0)
     imageErosion = getDilation(imageErosion)
-    cv2.imshow("diliation", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
-    cv2.waitKey(0)
+    # cv2.imshow("diliation", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
+    # cv2.waitKey(0)
     imageErosion = getOpening(imageErosion)
-    cv2.imshow("opening", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
-    cv2.waitKey(0)
+    # cv2.imshow("opening", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
+    # cv2.waitKey(0)
 
     contours = getContours(imageErosion)
     # drawTextContours(wrappingImg, contours)
@@ -57,7 +57,7 @@ def processImage(image):
     cv2.imwrite("contour_all.jpg", drawContours(wrappingImg, contours,0))
     text_cont = drawContourss(wrappingImg, contours,1)
     cv2.imwrite("contour_text.jpg", text_cont)
-    cv2.imshow("text_contour", cv2.resize(text_cont, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
+    # cv2.imshow("text_contour", cv2.resize(text_cont, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
     cv2.waitKey(0)
     return croppedContours(wrappingImg, contours)  # 글자로 추정되는 부분을 잘라낸 이미지들을 반환
 

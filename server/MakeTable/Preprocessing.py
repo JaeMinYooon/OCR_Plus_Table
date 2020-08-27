@@ -272,8 +272,8 @@ class Preprocessing(object):
         # image that will be erased with white color
         # self.closing_line = cv2.cvtColor(self.closing_line, cv2.COLOR_GRAY2BGR)
         self.erased_line = cv2.addWeighted(self.Origin_image, 1, self.closing_line, 1, 0)
-        # print(self.Origin_image.shape)
-        # print(self.closing_line.shape)
+        print(self.Origin_image.shape)
+        print(self.closing_line.shape)
         # print(self.img.shape)
         # self.closing_line = self.closing_line[:530, :824]
         # print(self.closing_line.shape)
