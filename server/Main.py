@@ -24,18 +24,8 @@ def Cmain(dirPath, imagePath, type,resultdir, model=0):
     fileList = glob.glob("./TextCrop/*" + type)
     for f in fileList:
         os.remove(f)
-
-
-    # 글자따기 ================================================================================
-    #croppedImages, coordinateList = processImage(imagePath+'.jpg')  # process the image and get cropped screenshot
-    croppedImages, coordinateList = processImage(image)  # process the image and get cropped screenshot
     print("doc")
     print(image.shape)
-    count = 0
-    for cropImage in croppedImages:
-        count += 1
-        saveImage(cropImage, "./TextCrop/crop_" + str(count))
-    # ===================    == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
 
     # 표만들기 ================================================================================
     resizeFile(image)
@@ -47,6 +37,16 @@ def Cmain(dirPath, imagePath, type,resultdir, model=0):
     index_list = main_process.get_cell_index()
     # print("===========================indexlist")
     # ========================================================================================
+
+    # 글자따기 ================================================================================
+    #croppedImages, coordinateList = processImage(imagePath+'.jpg')  # process the image and get cropped screenshot
+    croppedImages, coordinateList = processImage(image)  # process the image and get cropped screenshot
+
+    count = 0
+    for cropImage in croppedImages:
+        count += 1
+        saveImage(cropImage, "./TextCrop/crop_" + str(count))
+    # ===================    == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
 
     # 정렬하기 ================================================================================
 
@@ -64,7 +64,7 @@ def Cmain(dirPath, imagePath, type,resultdir, model=0):
 
 if __name__ == '__main__':
     #model = load_Model()
-    Cmain(dirPath='./TestCase/', imagePath='testcase9', type='.jpg', resultdir='./TestResult/')
+    Cmain(dirPath='./TestCase/', imagePath='testcase7', type='.jpg', resultdir='./TestResult/')
     # Cmain(dirPath='./TestCase/', imagePath='_erased_img', type='.png', resultdir='./TestResult/')
 
 

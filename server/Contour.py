@@ -152,7 +152,7 @@ def drawContourss(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는
 
         # if width > avg - 15 and height > avg - 15 and width < avg + 50 and height < avg + 50:
         #     cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 2)
-        if flag==1:
+        if flag==1 or flag==2:
             # if
             if width> avg and height > avg:
                 if width > height:
@@ -163,7 +163,7 @@ def drawContourss(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는
                         text_contours['h'].append(height)
                         # cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
                     else:
-                        if height < avg or height > avg*3 or width > avg * 10:
+                        if height < avg or height > avg*3 or width > avg * 5:
                             continue
                         # it_n = int(width / (height*8/10))
                         # for it in range(it_n):
@@ -186,7 +186,7 @@ def drawContourss(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는
             #     cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
         # else:
         #     cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
-    if flag==3:
+    if flag==2:
         for i in range(len(text_contours['x'])):
             x = text_contours['x'][i]
             y = text_contours['y'][i]
@@ -219,7 +219,7 @@ def drawContourss(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는
                     if height >= width * 80 / 100:
                         cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
                     else:
-                        if height < avg or height > avg * 1.5 or width > avg * 3:
+                        if height < avg or height > avg * 3 or width > avg * 5:
                             continue
                         it_n = int(width / (height*7/10))
                         for it in range(it_n):
