@@ -42,13 +42,13 @@ def Cmain(dirPath, imagePath, type,resultdir, model=0):
     main_process.ocr_by_box()
     main_process.export_to_xlsx()
     index_list = main_process.get_cell_index()
-    print("===========================indexlist")
+    # print("===========================indexlist")
     # ========================================================================================
 
     # 정렬하기 ================================================================================
 
     #xmlP(coordinateList)
-    print(index_list)
+    # print(index_list)
     #fontsize = getFontsize(coordinateList)
     root = set_base_xml(index_list, coordinateList)
     makeExcel(root,resultdir+imagePath)
@@ -61,6 +61,7 @@ def Cmain(dirPath, imagePath, type,resultdir, model=0):
 
 if __name__ == '__main__':
     #model = load_Model()
-    Cmain(dirPath='./TestCase/', imagePath='testcase11', type='.jpg', resultdir='./TestResult/')
+    Cmain(dirPath='./TestCase/', imagePath='testcase9', type='.jpg', resultdir='./TestResult/')
+    # Cmain(dirPath='./TestCase/', imagePath='_erased_img', type='.png', resultdir='./TestResult/')
 
 

@@ -19,24 +19,46 @@ def processImage(image):
     '''
     #image = openImgFile(imageFile)
     wrappingImg = image_warping(image) # 이미지 wrapping 해주는것 => 표만 딱 잘라주기
+    # wrappingImg = image
+    # hei, wid = wrappingImg.shape[:2]
+    # wrappingImg = cv2.resize(wrappingImg, (4*wid,4*hei),interpolation=cv2.INTER_AREA)
     imageGray = getGrayImage(wrappingImg) # 이미지 회색으로 바꿔주는 것
-    imageThreshold = getAdaptiveThreshold(imageGray) # 이미지를 검은색 아니면 흰색을 바꿔주기 + 블러 처리
+    imageBrightness = getBrightness(imageGray)
+    cv2.imshow("birght", cv2.resize(imageBrightness, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
+    cv2.waitKey(0)
+    imageErosion = getAdaptiveThreshold(imageBrightness) # 이미지를 검은색 아니면 흰색을 바꿔주기 + 블러 처리
+    cv2.imshow("thresh", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
+    cv2.waitKey(0)
     # Long line remove
     ##imageLineRemoved = removeLongLine(imageThreshold)
     # Morph Close
-    ##imageClose = getClosing(imageLineRemoved)
+    # imageClose = getClosing(imageLineRemoved)
     # 컴퓨터 파일의 경우 Dilation 하면 글자 번짐이 너무심함
     # imageDilation = getDilation(imageThreshold)
     # imageErosion = getErosion(imageDilation)
 
-    imageErosion = getErosion(imageThreshold)
+    # imageErosion = getErosion(imageErosion)
+
+    imageErosion = getClosing(imageErosion)
+    cv2.imshow("closing", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
+    cv2.waitKey(0)
+    imageErosion = getDilation(imageErosion)
+    cv2.imshow("diliation", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
+    cv2.waitKey(0)
+    imageErosion = getOpening(imageErosion)
+    cv2.imshow("opening", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
+    cv2.waitKey(0)
 
     contours = getContours(imageErosion)
-    drawTextContours(wrappingImg, contours)
-
+    # drawTextContours(wrappingImg, contours)
+    print("####")
+    print(wrappingImg.shape)
     cv2.imwrite("result.jpg", imageErosion)
-    cv2.imwrite("contour.jpg", drawContours(wrappingImg, contours))
-
+    cv2.imwrite("contour_all.jpg", drawContours(wrappingImg, contours,0))
+    text_cont = drawContourss(wrappingImg, contours,1)
+    cv2.imwrite("contour_text.jpg", text_cont)
+    cv2.imshow("text_contour", cv2.resize(text_cont, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
+    cv2.waitKey(0)
     return croppedContours(wrappingImg, contours)  # 글자로 추정되는 부분을 잘라낸 이미지들을 반환
 
 def order_points(pts):
@@ -94,6 +116,12 @@ def image_warping(imageFile):
 
     return warped
 
+def getBrightness(image):
+    # 밝게하기(원본보다 100만큼 밝게(최대 255))
+    control = np.ones(image.shape, dtype="uint8") * 60
+    brightnessImage = cv2.add(image, control)
+    return brightnessImage
+
 def getGrayImage(image):
     copyGray = image.copy()
     imageGray = cv2.cvtColor(copyGray, cv2.COLOR_BGR2GRAY)
@@ -138,6 +166,24 @@ def removeLongLine(imageBinary):
             cv2.line(copy, (x1, y1), (x2, y2), (0, 0, 0), 2)
     return copy
 
+def getOpening(imageGray):
+    ''' 이미지에 Morph Close 를 적용한 이미지객체를 반환합니다.
+    이미지에 Dilation 수행을 한 후 Erosion 을 수행한 것입니다.
+    이 때 인자로 입력되는 이미지는 Gray-scale 이 적용된 2차원 이미지여야 합니다.
+    configs 에 의해 kernel size 값을 설정할 수 있습니다.
+
+    :param imageGray: Gray-scale 이 적용된 OpenCV image (2 dimension)
+    :return: Morph Close 를 적용한 흑백(Binary) 이미지
+    '''
+    copy = imageGray.copy()
+
+    # make kernel matrix for dilation and erosion
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
+    # closing (dilation and erosion)
+    imageOpen = cv2.morphologyEx(copy, cv2.MORPH_OPEN, kernel, iterations=2) #iterations가 반복 but 현재는 안쓰는게 good
+
+    return imageOpen
+
 def getClosing(imageGray):
     ''' 이미지에 Morph Close 를 적용한 이미지객체를 반환합니다.
     이미지에 Dilation 수행을 한 후 Erosion 을 수행한 것입니다.
@@ -157,8 +203,9 @@ def getClosing(imageGray):
     return imageClose
 
 def getDilation(image):
-
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (7, 7))
+    # 3,3 으로 설정하면 작은글자 나옴
+    #  5,5 는 더 큰글자 나옴
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
     imageDilation = cv2.dilate(image, kernel, iterations=2)
 
     return imageDilation

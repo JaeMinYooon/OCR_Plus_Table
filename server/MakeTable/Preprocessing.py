@@ -13,6 +13,9 @@ class Preprocessing(object):
                 raise IOError('Cannot find image file "%s"' % img_file)
         self.img_file = img_file
         self.img = cv2.imread(img_file)  # 작업용 이미지
+
+        # self.img = resizeFile(self.img)
+        # self.img = img_file  # 작업용 이미지
         #★self.img = cv2.imread('hi.png')
         ####### image_warping 전처리 ############
         #self.img = self.image_warping()
@@ -260,7 +263,7 @@ class Preprocessing(object):
                 self.line_image = cv2.rectangle(self.line_image, (x, y), (x + width, y + height), (255, 255, 255, 50),
                                                 2)
             i += 1
-        # print(self.line_image.shape)
+
         self._show_img('_line_img', self.line_image)
 
     # ==========================================================================
@@ -268,7 +271,13 @@ class Preprocessing(object):
         """ 흰색으로 그려진 Line_image를 Original_imgae에 덮어 씌워 경계를 지워줍니다."""
         # image that will be erased with white color
         # self.closing_line = cv2.cvtColor(self.closing_line, cv2.COLOR_GRAY2BGR)
-        self.erased_line = cv2.addWeighted(self.Origin_image, 1, self.closing_line, 1, 0)
+        # self.erased_line = cv2.addWeighted(self.Origin_image, 1, self.closing_line, 1, 0)
+        print(self.Origin_image.shape)
+        print(self.closing_line.shape)
+        print(self.img.shape)
+        self.closing_line = self.closing_line[:530, :824]
+        print(self.closing_line.shape)
+        self.erased_line = cv2.addWeighted(self.img, 1, self.closing_line, 1, 0)
         self._show_img('_erased_img', self.erased_line)
 
     # ==========================================================================
@@ -689,6 +698,7 @@ class Preprocessing(object):
         #img = cv2.imread(self.img_file)
         #self.resize_image(img)
         #self.resize_image()
+        # cv2.imshow("tt", self.img)
         self.image_warping()
         self.brightness()
 

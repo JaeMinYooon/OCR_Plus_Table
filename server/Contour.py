@@ -68,8 +68,56 @@ def drawTextContours(imageOrigin, contours): #컨투어 어떻게됐나 보는�
     plt.show()
 
     return None
+def drawContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는거
+    ''' 이미지에서 찾은 Contour 부분들을 잘라내어 반환합니다.
+        각 contour 를 감싸는 외각 사각형에 여유분(padding)을 주어 이미지를 잘라냅니다.
 
-def drawContours(imageOrigin, contours): #컨투어 어떻게됐나 보는거
+        :param imageOrigin: 원본 이미지
+        :param contours: 잘라낼 contour 리스트
+        :return: contours 를 기반으로 잘라낸 이미지(OpenCV image 객체) 리스트
+        '''
+    imageCopy = imageOrigin.copy()  # copy the image to be processed
+
+    sum = 0
+    avgCount = 0
+    for contoursCount in contours:
+        _, _, width, height = cv2.boundingRect(contoursCount)
+        # if (width < 100 or height < 100) and (width > 20 or height > 20):
+        #     avgCount = avgCount + 1
+        #     sum = sum + width
+        avgCount = avgCount + 1
+        sum = sum + width
+    avg = sum / avgCount
+    print("평균:", avg)
+    for contour in contours:  # Crop the screenshot with on bounding rectangles of contours
+        x, y, width, height = cv2.boundingRect(contour)  # top-left vertex coordinates (x,y) , width, height
+        # screenshot that are larger than the standard size
+
+        # if width > avg - 15 and height > avg - 15 and width < avg + 50 and height < avg + 50:
+        #     cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 2)
+        if flag==1:
+            # if
+            if width> avg and height > avg:
+                if width > height:
+                    if height >= width * 80 / 100 :
+                        cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
+                    else:
+                        if height < avg:
+                            continue
+                        it_n = int(width / (height*8/10))
+                        for it in range(it_n):
+                            cv2.rectangle(imageCopy, (x, y), (x + int(width/it_n) , y + height), (127, 25, 10), 3)
+                            x += int(width/it_n)
+                else:
+                    if width >= height * 7 / 10 and width < avg*10 and height < avg*10:
+                        cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
+            # if width > 35 and height > 35 and width < 70 and height < 70:
+            #     cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
+        else:
+            cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
+
+    return imageCopy
+def drawContourss(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는거
     ''' 이미지에서 찾은 Contour 부분들을 잘라내어 반환합니다.
         각 contour 를 감싸는 외각 사각형에 여유분(padding)을 주어 이미지를 잘라냅니다.
 
@@ -91,11 +139,12 @@ def drawContours(imageOrigin, contours): #컨투어 어떻게됐나 보는거
     avg = sum / avgCount
     print("평균:", avg)
 
-    # avg 값 고쳐주기
-    if avg < 30 and avg > 20:
-        avg = avg - 10
-    elif avg < 40 and avg > 30:
-        avg = avg - 20
+    text_contours = {
+        'x':[],
+        'y':[],
+        'w':[],
+        'h':[]
+    }
 
     for contour in contours:  # Crop the screenshot with on bounding rectangles of contours
         x, y, width, height = cv2.boundingRect(contour)  # top-left vertex coordinates (x,y) , width, height
@@ -103,8 +152,82 @@ def drawContours(imageOrigin, contours): #컨투어 어떻게됐나 보는거
 
         # if width > avg - 15 and height > avg - 15 and width < avg + 50 and height < avg + 50:
         #     cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 2)
+        if flag==1:
+            # if
+            if width> avg and height > avg:
+                if width > height:
+                    if height >= width * 80 / 100 :
+                        text_contours['x'].append(x)
+                        text_contours['y'].append(y)
+                        text_contours['w'].append(width)
+                        text_contours['h'].append(height)
+                        # cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
+                    else:
+                        if height < avg or height > avg*3 or width > avg * 10:
+                            continue
+                        # it_n = int(width / (height*8/10))
+                        # for it in range(it_n):
+                        #     # cv2.rectangle(imageCopy, (x, y), (x + int(width/it_n) , y + height), (127, 25, 10), 3)
+                        text_contours['x'].append(x)
+                        text_contours['y'].append(y)
+                        text_contours['w'].append(width)
+                        text_contours['h'].append(height)
+                        #     x += int(width/it_n)
+                else:
+                    if width >= height * 7 / 10 and width < avg*3.5 and height < avg*3.5:
+                        # cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
+                        text_contours['x'].append(x)
+                        text_contours['y'].append(y)
+                        text_contours['w'].append(width)
+                        text_contours['h'].append(height)
 
-        cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 1)
+
+            # if width > 35 and height > 35 and width < 70 and height < 70:
+            #     cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
+        # else:
+        #     cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
+    if flag==3:
+        for i in range(len(text_contours['x'])):
+            x = text_contours['x'][i]
+            y = text_contours['y'][i]
+            width = text_contours['w'][i]
+            height = text_contours['h'][i]
+            cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
+
+    if flag ==1:
+        remove_list = []
+        for i in range(len(text_contours['x'])):
+            result = [x for x, y in zip(text_contours['x'], text_contours['y']) if
+                        x < (text_contours['x'][i] + text_contours['w'][i]*90/100 ) and x > (text_contours['x'][i]+ text_contours['w'][i]*5/100 ) and y <
+                        (text_contours['y'][i] + text_contours['h'][i]*90/100 ) and y > (text_contours['y'][i]+ text_contours['h'][i]*5/100) ]
+            if result:
+                remove_list.append(i)
+        sorted(remove_list)
+        for i in reversed(remove_list):
+            del text_contours['x'][i]
+            del text_contours['y'][i]
+            del text_contours['w'][i]
+            del text_contours['h'][i]
+
+        for i in range(len(text_contours['x'])):
+            x = text_contours['x'][i]
+            y = text_contours['y'][i]
+            width = text_contours['w'][i]
+            height = text_contours['h'][i]
+            if width > avg and height > avg:
+                if width > height:
+                    if height >= width * 80 / 100:
+                        cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
+                    else:
+                        if height < avg or height > avg * 1.5 or width > avg * 3:
+                            continue
+                        it_n = int(width / (height*7/10))
+                        for it in range(it_n):
+                            cv2.rectangle(imageCopy, (x, y), (x + int(width/it_n) , y + height), (127, 25, 10), 3)
+                            x += int(width/it_n)
+                else:
+                    if width >= height * 7 / 10 and width < avg * 10 and height < avg * 2:
+                        cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
 
     return imageCopy
 
@@ -150,7 +273,7 @@ def croppedContours(imageOrigin, contours): # 실제 자르는거
 
 
         # if width > avg - 15  and height > avg - 15  and width < avg + 100 and height < avg + 100:
-        if width> 7 and height > 7 and width < 15 and height < 15:
+        if width> 35 and height > 35 and width < 70 and height < 70:
             # ★★★★ 이부분 수정으로 나열해주기 ★★★
             # The range of row to crop (with padding) row 세로 col 가로
             rowFrom = y - padding if (y - padding) > 0 else y
@@ -167,7 +290,7 @@ def croppedContours(imageOrigin, contours): # 실제 자르는거
             croppedImages.append(cropped)  # add to the list
 
 
-    print(coordinatesList)
+    # print(coordinatesList)
     return croppedImages, coordinatesList
 
 def getThreshold(imageGray):
