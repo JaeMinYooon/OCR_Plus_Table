@@ -20,5 +20,5 @@ def resizeFile(image): # 사진으로 찍은 경우 사이즈가 크기 때문�
         resizeImage = cv2.resize(image, (0, 0), fx=0.25, fy=0.25)
     else:
         resizeImage = image
-
+    print(resizeImage.shape)
     cv2.imwrite('document.jpg', resizeImage)

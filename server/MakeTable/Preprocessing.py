@@ -24,6 +24,8 @@ class Preprocessing(object):
 
         #self.Origin_image = cv2.imread(img_file)
         self.Origin_image = self.img.copy()
+        print("#######")
+        print(self.Origin_image.shape)
         self.line_image = self.img * 0  # image that only lines will be drawn
         self.erased_line = None  # image that will be erased  with white color
         self.closing_line = None
@@ -272,13 +274,16 @@ class Preprocessing(object):
         # image that will be erased with white color
         # self.closing_line = cv2.cvtColor(self.closing_line, cv2.COLOR_GRAY2BGR)
         self.erased_line = cv2.addWeighted(self.Origin_image, 1, self.closing_line, 1, 0)
-        print(self.Origin_image.shape)
-        print(self.closing_line.shape)
-        # print(self.img.shape)
-        # self.closing_line = self.closing_line[:530, :824]
-        # print(self.closing_line.shape)
-        # self.erased_line = cv2.addWeighted(self.img, 1, self.closing_line, 1, 0)
         self._show_img('_erased_img', self.erased_line)
+        # print(self.Origin_image.shape)
+        # print(self.closing_line.shape)
+        print("self.img")
+        x,y,_ = self.img.shape
+        wrap_line_image = self.closing_line[:x, :y]
+        wrap_line_image = cv2.resize(wrap_line_image, (y*4, x*4), interpolation=cv2.INTER_AREA )
+        print(wrap_line_image.shape)
+        # self.erased_line = cv2.addWeighted(self.img, 1, self.closing_line, 1, 0)
+        self._show_img('_wrap_erased_img', wrap_line_image)
 
     # ==========================================================================
     '''
@@ -321,7 +326,7 @@ class Preprocessing(object):
         print("wrap around: {}".format(np.uint8([50]) - np.uint8([100])))
         '''
         # 밝게하기(원본보다 100만큼 밝게(최대 255))
-        control = np.ones(image.shape, dtype="uint8") * 65
+        control = np.ones(image.shape, dtype="uint8") * 40
         brightnessImage = cv2.add(image, control)
         self.img = brightnessImage
 

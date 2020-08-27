@@ -4,6 +4,12 @@ import glob,os
 from Main import *
 from MakeTable.File import *
 from Contour import *
+
+def erase_line(image):
+    erased_img = cv2.addWeighted(image, 1, cv2.imread('./data/result/_wrap_erased_img.png'), 1, 0)
+    cv2.imwrite('./contour_erasedline.jpg', erased_img)
+    return erased_img
+
 def processImage(image):
     ''' 다섯 단계의 이미지 처리(Image precessing)를 힙니다.
     현재 함수에서 순서를 변경하여 적용할 수 있습니다.
@@ -19,10 +25,12 @@ def processImage(image):
     '''
     #image = openImgFile(imageFile)
     wrappingImg = image_warping(image) # 이미지 wrapping 해주는것 => 표만 딱 잘라주기
+    eraseedImg = erase_line(wrappingImg)
+
     # wrappingImg = image
     # hei, wid = wrappingImg.shape[:2]
     # wrappingImg = cv2.resize(wrappingImg, (4*wid,4*hei),interpolation=cv2.INTER_AREA)
-    imageGray = getGrayImage(wrappingImg) # 이미지 회색으로 바꿔주는 것
+    imageGray = getGrayImage(eraseedImg) # 이미지 회색으로 바꿔주는 것
     imageBrightness = getBrightness(imageGray)
     # cv2.imshow("birght", cv2.resize(imageBrightness, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
     # cv2.waitKey(0)

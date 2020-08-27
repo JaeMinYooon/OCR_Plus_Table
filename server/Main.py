@@ -29,6 +29,8 @@ def Cmain(dirPath, imagePath, type,resultdir, model=0):
     # 글자따기 ================================================================================
     #croppedImages, coordinateList = processImage(imagePath+'.jpg')  # process the image and get cropped screenshot
     croppedImages, coordinateList = processImage(image)  # process the image and get cropped screenshot
+    print("doc")
+    print(image.shape)
     count = 0
     for cropImage in croppedImages:
         count += 1
@@ -37,6 +39,7 @@ def Cmain(dirPath, imagePath, type,resultdir, model=0):
 
     # 표만들기 ================================================================================
     resizeFile(image)
+    # print(cv2.imread(image).shape)
     main_process = Export2Document.Export2Document('document.jpg', verbose='v')
     main_process.process()
     main_process.ocr_by_box()
