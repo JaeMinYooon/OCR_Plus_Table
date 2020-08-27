@@ -12,11 +12,11 @@ from mExcel import *
 #from TFOCR.TFmain import *
 
 
-def Cmain(imagePath, type, model=0):
+def Cmain(dirPath, imagePath, type,resultdir, model=0):
     #imagePath = './Test/t11.jpg'
     #imagePath = 'test4.jpg'
 
-    image = cv2.imread(imagePath+ type)
+    image = cv2.imread(dirPath+imagePath+ type)
 
     fileList = glob.glob("./TableCrop/*"+ type)
     for f in fileList:
@@ -51,7 +51,7 @@ def Cmain(imagePath, type, model=0):
     print(index_list)
     #fontsize = getFontsize(coordinateList)
     root = set_base_xml(index_list, coordinateList)
-    makeExcel(root,imagePath)
+    makeExcel(root,resultdir+imagePath)
 
     main_process = Preprocessing.Preprocessing('document.jpg', verbose='v')
     main_process.process()
@@ -61,6 +61,6 @@ def Cmain(imagePath, type, model=0):
 
 if __name__ == '__main__':
     #model = load_Model()
-    Cmain(imagePath='./TestCase/test4', type='.jpg')
+    Cmain(dirPath='./TestCase/', imagePath='testcase11', type='.jpg', resultdir='./TestResult/')
 
 
