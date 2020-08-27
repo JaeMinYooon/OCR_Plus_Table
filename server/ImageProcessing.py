@@ -25,10 +25,15 @@ def processImage(image):
     ##imageLineRemoved = removeLongLine(imageThreshold)
     # Morph Close
     ##imageClose = getClosing(imageLineRemoved)
-    imageDilation = getDilation(imageThreshold)
-    imageErosion = getErosion(imageDilation)
+    # 컴퓨터 파일의 경우 Dilation 하면 글자 번짐이 너무심함
+    # imageDilation = getDilation(imageThreshold)
+    # imageErosion = getErosion(imageDilation)
+
+    imageErosion = getErosion(imageThreshold)
 
     contours = getContours(imageErosion)
+    drawTextContours(wrappingImg, contours)
+
     cv2.imwrite("result.jpg", imageErosion)
     cv2.imwrite("contour.jpg", drawContours(wrappingImg, contours))
 

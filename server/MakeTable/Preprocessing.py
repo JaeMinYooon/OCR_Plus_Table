@@ -134,8 +134,8 @@ class Preprocessing(object):
             dim = (int(img.shape[1] * r), 600)
             img = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
             self.img = img
-            cv2.imshow('resize', img)
-            cv2.waitKey(0)
+            # cv2.imshow('resize', img)
+            # cv2.waitKey(0)
         print('resize되는가?')
     # ==========================================================================
     def _read_config(self, config_file):
@@ -156,8 +156,8 @@ class Preprocessing(object):
         if self.verbose.startswith('v'):
             #if self.origin_width > 1000 or self.origin_height > 1000:
             #    temp_img = cv2.resize(temp_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
-            cv2.imshow(title, temp_img)
-            cv2.waitKey(0)
+            # cv2.imshow(title, temp_img)
+            # cv2.waitKey(0)
             cv2.imwrite('./data/result/' + title + '.png', temp_img)
 
     # ==========================================================================
@@ -236,8 +236,8 @@ class Preprocessing(object):
         """
         # repeat contour detection
         imgray = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
-        print(self.line_image.shape)
-        print("###")
+        # print(self.line_image.shape)
+        # print("###")
         mode = 'detect'
         thr = self._get_threshold(imgray, mode)
 
@@ -260,7 +260,7 @@ class Preprocessing(object):
                 self.line_image = cv2.rectangle(self.line_image, (x, y), (x + width, y + height), (255, 255, 255, 50),
                                                 2)
             i += 1
-        print(self.line_image.shape)
+        # print(self.line_image.shape)
         self._show_img('_line_img', self.line_image)
 
     # ==========================================================================
@@ -394,8 +394,8 @@ class Preprocessing(object):
 
         # contour와 contour사이의 선은 cell로 취급할 필요가 없음
         # 가장 작은 contour rectangle의 width와 height를 기준으로 유사한 값을 압축
-        print("***")
-        print(needed_x, ", ", needed_y)
+        # print("***")
+        # print(needed_x, ", ", needed_y)
         self.final_x = self.approx_axis(needed_x, int(find_min_width * 0.5),0)
         self.final_y = self.approx_axis(needed_y, int(find_min_height * 0.5),1)
 
@@ -479,18 +479,18 @@ class Preprocessing(object):
         #
         #         self.cells.add(Cell())
         h,w,_ = self.img.shape
-        print("%%%"+str(h)+" "+str(w))
+        # print("%%%"+str(h)+" "+str(w))
         h,w,_ = self.line_image.shape
-        print("%%%"+str(h)+" "+str(w))
+        # print("%%%"+str(h)+" "+str(w))
         self.before_merged = [[Cell() for rows in range(len(self.final_x) - 1)] for cols in
                               range(len(self.final_y) - 1)]
-        print(len(self.final_x))
-        print(len(self.final_y))
+        # print(len(self.final_x))
+        # print(len(self.final_y))
         for cols in range(len(self.final_y)-1):
             for rows in range(len(self.final_x) - 1):
                 x = self.final_x[rows]
                 y = self.final_y[cols]
-                print("x : ", x, "y: ", y)
+                # print("x : ", x, "y: ", y)
                 width = self.final_x[rows + 1] - self.final_x[rows]
                 height = self.final_y[cols + 1] - self.final_y[cols]
 
@@ -501,14 +501,14 @@ class Preprocessing(object):
                     self.cells[cols][rows].cell_name = ascii_uppercase[rows] + "%d" % (cols + 1)
                     self.cells[cols][rows].merged_info = ascii_uppercase[rows] + "%d" % (cols + 1)
                     self.before_merged[cols][rows].cell_name = ascii_uppercase[rows] + "%d" % (cols + 1)
-                    print("x<26 : " + self.cells[cols][rows].cell_name)
-                    print(rows)
+                    # print("x<26 : " + self.cells[cols][rows].cell_name)
+                    # print(rows)
                 else:
                     self.cells[cols][rows].cell_name = ascii_uppercase[int(rows/26)-1] + ascii_uppercase[rows%26] + "%d" % (cols + 1)
                     self.cells[cols][rows].merged_info = ascii_uppercase[int(rows/26)-1] + ascii_uppercase[rows%26] + "%d" % (cols + 1)
                     self.before_merged[cols][rows].cell_name = ascii_uppercase[int(rows/26)-1] + ascii_uppercase[rows%26] + "%d" % (cols + 1)
-                    print("x>26 : " + self.cells[cols][rows].cell_name)
-                    print(rows)
+                    # print("x>26 : " + self.cells[cols][rows].cell_name)
+                    # print(rows)
 
                 # 본인의 cell_name과 merged_info가 같으면 머지 되지 않은 것
 
@@ -521,8 +521,8 @@ class Preprocessing(object):
         for cols in range(len(self.final_y) - 1):
             for rows in range(len(self.final_x) - 1):
                 x, y, width, height, central_x, central_y = self.cells[cols][rows]._get_value()
-                print("&&&")
-                print(x, y, width, height, central_x, central_y)
+                # print("&&&")
+                # print(x, y, width, height, central_x, central_y)
                 if rows == 0:
                     self.cells[cols][rows].boundary['left'] = True
                 if rows == len(self.final_x) - 1:

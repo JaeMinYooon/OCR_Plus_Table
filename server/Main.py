@@ -42,7 +42,7 @@ def Cmain(imagePath, type, model=0):
     main_process.ocr_by_box()
     main_process.export_to_xlsx()
     index_list = main_process.get_cell_index()
-
+    print("===========================indexlist")
     # ========================================================================================
 
     # 정렬하기 ================================================================================
@@ -61,6 +61,6 @@ def Cmain(imagePath, type, model=0):
 
 if __name__ == '__main__':
     #model = load_Model()
-    Cmain(imagePath='test4', type='.jpg')
+    Cmain(imagePath='./TestCase/test4', type='.jpg')
 
 

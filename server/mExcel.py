@@ -53,4 +53,4 @@ def makeExcel(root, imagePath):
         cell.font = openpyxl.styles.Font(size=16)
         cell.number_format = cell.number_format
         cell.alignment = openpyxl.styles.Alignment(horizontal='center',vertical='center', wrapText=True)
-    wb.save(imagePath+'.xlsx')
+    wb.save('./TestResult/'+imagePath+'.xlsx')
