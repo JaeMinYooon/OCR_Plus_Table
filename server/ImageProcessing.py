@@ -50,11 +50,20 @@ def processImage(image):
     # imageDilation = getDilation(imageThreshold)
     # imageErosion = getErosion(imageDilation)
 
-    # imageErosion = getErosion(imageErosion)
+    imageErosion = getErosion(imageErosion)
 
     imageErosion = getClosing(imageErosion)
     cv2.imshow("closing", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
     cv2.waitKey(0)
+
+    test = imageErosion.copy()
+    test = getDilation(test, (8,8))
+    test = getOpening(test)
+    test_contours = getContours(test)
+    test,_ = drawContoursss(wrappingImg, test_contours)
+    cv2.imshow("test", cv2.resize(test, dsize=(0, 0), fx=0.2, fy=0.2, interpolation=cv2.INTER_LINEAR))
+    cv2.waitKey(0)
+
     imageErosion = getDilation(imageErosion)
     cv2.imshow("diliation", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
     cv2.waitKey(0)
@@ -67,13 +76,21 @@ def processImage(image):
     print("####")
     print(wrappingImg.shape)
     cv2.imwrite("result.jpg", imageErosion)
-    cv2.imwrite("contour_all.jpg", drawContours(wrappingImg, contours,0))
-    cv2.imwrite("contour_half.jpg", drawContourss(wrappingImg, contours,2))
-    text_cont = drawContourss(wrappingImg, contours,1)
-    cv2.imwrite("contour_text.jpg", text_cont)
-    cv2.imshow("text_contour", cv2.resize(text_cont, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
+
+    all_contour, _ = drawContours(wrappingImg, contours,0)
+    cv2.imwrite("contour_all.jpg", all_contour)
+    cv2.imshow("all_contour", cv2.resize(all_contour, dsize=(0, 0), fx=0.2, fy=0.2, interpolation=cv2.INTER_LINEAR))
+
+    half_contour, _ = drawContourss(wrappingImg, contours,2)
+    cv2.imwrite("contour_half.jpg", half_contour)
+    cv2.imshow("half_contour", cv2.resize(half_contour, dsize=(0, 0), fx=0.2, fy=0.2, interpolation=cv2.INTER_LINEAR))
+
+    text_contour, contour_info = drawContourss(wrappingImg, contours,1)
+    cv2.imwrite("contour_text.jpg", text_contour)
+    cv2.imshow("text_contour", cv2.resize(text_contour, dsize=(0, 0), fx=0.2, fy=0.2, interpolation=cv2.INTER_LINEAR))
     cv2.waitKey(0)
-    return croppedContours(wrappingImg, contours)  # 글자로 추정되는 부분을 잘라낸 이미지들을 반환
+    # return croppedContours(wrappingImg, contours)  # 글자로 추정되는 부분을 잘라낸 이미지들을 반환
+    return croppedContourss(wrappingImg, contour_info)  # 글자로 추정되는 부분을 잘라낸 이미지들을 반환
 
 def order_points(pts):
     rect = np.zeros((4, 2), dtype="float32")
@@ -132,7 +149,7 @@ def image_warping(imageFile):
 
 def getBrightness(image):
     # 밝게하기(원본보다 100만큼 밝게(최대 255))
-    control = np.ones(image.shape, dtype="uint8") * 60
+    control = np.ones(image.shape, dtype="uint8") * 70
     brightnessImage = cv2.add(image, control)
     return brightnessImage
 
@@ -216,10 +233,11 @@ def getClosing(imageGray):
 
     return imageClose
 
-def getDilation(image):
-    # 3,3 으로 설정하면 작은글자 나옴
-    #  5,5 는 더 큰글자 나옴
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
+def getDilation(image, ksize=(5,5)):
+    #  3,3 으로 설정하면 작은글자 나옴
+    #  5,5 = 엥간한 작은 글자들 // testcase9(5,5하면 다나옴)
+    #  8,8 이상에 정사각형 잡으면 세금계산서만 나옴 // testcase9(8,8이상) testcase7(8,8만)
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, ksize)
     imageDilation = cv2.dilate(image, kernel, iterations=2)
 
     return imageDilation
