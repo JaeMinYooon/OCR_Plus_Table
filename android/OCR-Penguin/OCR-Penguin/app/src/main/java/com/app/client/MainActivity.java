@@ -5,14 +5,15 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -29,8 +30,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 import java.net.Socket;
+
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,19 +43,36 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "FirstPenguin";
     private static final int CAMERA_CODE = 10;
     private static final int GALLERY_CODE = 0;
+    private final int MY_PERMISSIONS_REQUEST_CAMERA=1001;
     private TCPClient tcpClient;
     private String mCurrentPhotoPath;
     private String imagePath = "";
-    private ProgressDialog progressDialog;
     private CheckTypesTask task;
     private boolean taskflag = false;
-    private CameraSurfaceView surfaceView;
-
+    int PERMISSION_ALL = 1;
+    String[] PERMISSIONS = {
+            android.Manifest.permission.READ_CONTACTS,
+            android.Manifest.permission.WRITE_CONTACTS,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest.permission.READ_SMS,
+            android.Manifest.permission.CAMERA
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        requirePermission();
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CAMERA)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CAMERA},
+                        MY_PERMISSIONS_REQUEST_CAMERA);
+            }
+        }
         ImageView gallery = (ImageView) findViewById(R.id.gallery);
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,26 +105,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_CAMERA: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    void requirePermission() { //권한 허가 요청
-        String[] permissions = new String[]{Manifest.permission.CAMERA,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.INTERNET,
-                Manifest.permission.READ_EXTERNAL_STORAGE};
-        ArrayList<String> listPermissionsNeeded = new ArrayList<>();
-        for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) {
-                //권한이 허가가 안됬을 경우 요청할 권한을 모집하는 부분
-                listPermissionsNeeded.add(permission);
+                    Toast.makeText(this,"승인이 허가되어 있습니다.",Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(this,"아직 승인받지 않았습니다.",Toast.LENGTH_LONG).show();
+                }
+                return;
             }
-        }
-        if (!listPermissionsNeeded.isEmpty()) {
-            //권한 요청 하는 부분
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[0]), 1);
+
         }
     }
-
     void pickUpPicture() { //갤러리에서 사진 선택
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
