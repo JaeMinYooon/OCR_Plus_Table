@@ -24,7 +24,7 @@ def main():
 
         img = getGrayImage(img)
         # cv2.imshow("getGrayImage", img)
-        # cv2.waitKey(0)
+        # cv2.waitKey(0) #
 
         img = getAdaptiveThreshold(img)
         # cv2.imshow("getAdaptiveThreshold", img)
