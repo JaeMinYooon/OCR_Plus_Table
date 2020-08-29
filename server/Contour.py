@@ -382,6 +382,8 @@ def deleteInfoInTitlearea(titleInfo, contourInfo):
         toY = fromY + (title_h*16/10)
         for i in range(len(contourInfo) ):
             if contourInfo[i][0] < toX and contourInfo[i][0] > fromX and contourInfo[i][1] < toY and contourInfo[i][1] > fromY:
+                if i in remove_list:
+                    continue
                 remove_list.append(i)
     print(remove_list)
     sorted(remove_list)
