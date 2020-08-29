@@ -1,4 +1,6 @@
 .idea/
 *.xlsx
-server/*.png
+server/**/*.png
+server/**/*.jpg
 server/*.jpg
+server/*.png
