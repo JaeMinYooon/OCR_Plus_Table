@@ -62,3 +62,13 @@ for i in range(len(text_contours['x'])):
         remove_list.append(i)
 
 print(remove_list)
+
+temp = []
+temp.append((1,1,1,1))
+temp.append((1,1,2,2))
+temp.append((1,1,3,3))
+print(len(temp))
+
+for x,y,w,h in temp:
+    print(x,y,w,h)
+

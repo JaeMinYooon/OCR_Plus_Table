@@ -114,7 +114,7 @@ def drawContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는�
 
     return imageCopy,_
 
-def drawContourss(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는거
+def getTextContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는거
     '''
         이미지에서 글자 컨투어 부분만 사각형 그리는 메소드
 
@@ -249,7 +249,7 @@ def drawContourss(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는
 
     return imageCopy, info_for_crop
 
-def drawContoursss(imageOrigin, contours): #컨투어 어떻게됐나 보는거
+def getTitleContours(imageOrigin, contours): #컨투어 어떻게됐나 보는거
     '''
         임시 test -> 가장 큰 폰트사이즈 (세금계산서) 따려고 만든 메소드
     '''
@@ -300,12 +300,11 @@ def croppedContourss(imageOrigin, info_for_crop): # 실제 자르는거
     originHeight, originWidth = imageCopy.shape[:2]  # get image size
     croppedImages = []  # list to save the crop image.
     coordinatesList = []
-
-
+    i=0
     for info in info_for_crop:  # Crop the screenshot with on bounding rectangles of contours
-
+        i+=1
         x, y, width, height = info  # top-left vertex coordinates (x,y) , width, height
-        print(x,y,width,height)
+        # print(x,y,width,height)
         cropped = dstImg[y: height, x: width] #★★★★★
         croppedImages.append(cropped)  # add to the list
 
@@ -373,6 +372,33 @@ def croppedContours(imageOrigin, contours): # 실제 자르는거
 
     # print(coordinatesList)
     return croppedImages, coordinatesList
+
+def deleteInfoInTitlearea(titleInfo, contourInfo):
+    remove_list = []
+    for title_x,title_y,title_w,title_h in titleInfo:
+        fromX = title_x - (title_w*3/10)
+        fromY = title_y - (title_h*3/10)
+        toX = fromX + (title_w*16/10)
+        toY = fromY + (title_h*16/10)
+        for i in range(len(contourInfo) ):
+            if contourInfo[i][0] < toX and contourInfo[i][0] > fromX and contourInfo[i][1] < toY and contourInfo[i][1] > fromY:
+                remove_list.append(i)
+    print(remove_list)
+    sorted(remove_list)
+    for i in reversed(remove_list):
+        del contourInfo[i]
+
+    for x,y,w,h in titleInfo:
+        contourInfo.append((x,y,x+w,y+h))
+        # print(x,y,w,h)
+
+    return contourInfo
+
+def finalDraw(img, info):
+    imageCopy = img.copy()
+    for x,y,w,h in info:
+        cv2.rectangle(imageCopy, (x, y), (w, h), (50, 200, 50), 3)
+    return imageCopy
 
 def getThreshold(imageGray):
     copy = imageGray.copy()
