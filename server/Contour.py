@@ -69,13 +69,9 @@ def drawTextContours(imageOrigin, contours): #컨투어 어떻게됐나 보는�
 
     return None
 def drawContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는거
-    ''' 이미지에서 찾은 Contour 부분들을 잘라내어 반환합니다.
-        각 contour 를 감싸는 외각 사각형에 여유분(padding)을 주어 이미지를 잘라냅니다.
-
-        :param imageOrigin: 원본 이미지
-        :param contours: 잘라낼 contour 리스트
-        :return: contours 를 기반으로 잘라낸 이미지(OpenCV image 객체) 리스트
-        '''
+    '''
+        전체 컨투어 되는 것에 사각형 그리는 메소드
+    '''
     imageCopy = imageOrigin.copy()  # copy the image to be processed
 
     sum = 0
@@ -118,47 +114,9 @@ def drawContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는�
 
     return imageCopy,_
 
-def drawContoursss(imageOrigin, contours): #컨투어 어떻게됐나 보는거
-    ''' 이미지에서 찾은 Contour 부분들을 잘라내어 반환합니다.
-        각 contour 를 감싸는 외각 사각형에 여유분(padding)을 주어 이미지를 잘라냅니다.
-
-        :param imageOrigin: 원본 이미지
-        :param contours: 잘라낼 contour 리스트
-        :return: contours 를 기반으로 잘라낸 이미지(OpenCV image 객체) 리스트
-        '''
-    imageCopy = imageOrigin.copy()  # copy the image to be processed
-
-    info_for_crop = []
-    max = (1,1,1,1)
-    for contour in contours:  # Crop the screenshot with on bounding rectangles of contours
-        x, y, width, height = cv2.boundingRect(contour)  # top-left vertex coordinates (x,y) , width, height
-        # screenshot that are larger than the standard size
-        cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (50, 50, 200), 3)
-
-        if width>height and width> max[2]*9/10 and height>max[3]*9/10:
-            if height > width*9/10:
-                max = (x,y,width,height)
-        elif height>width and width> max[2]*9/10 and height>max[3]*9/10:
-            if width> height*9/10:
-                max = (x,y,width,height)
-
-    for contour in contours:  # Crop the screenshot with on bounding rectangles of contours
-        x, y, width, height = cv2.boundingRect(contour)  # top-left vertex coordinates (x,y) , width, height
-        if width>=height and width<=max[2]*2:
-            if (height>=max[3]*9/10 and height<=max[3]*10.5/10):
-                info_for_crop.append((x, y, width, height))
-                cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (50, 200, 50), 3)
-
-        elif height>= width and height<=max[3]*10.3/10:
-            if (width>=max[2]*9/10 and width<=max[2]*10.5/10):
-                info_for_crop.append((x, y, width, height))
-                cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (50, 200, 50), 3)
-
-    return imageCopy,info_for_crop
-
 def drawContourss(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는거
-    ''' 이미지에서 찾은 Contour 부분들을 잘라내어 반환합니다.
-        각 contour 를 감싸는 외각 사각형에 여유분(padding)을 주어 이미지를 잘라냅니다.
+    '''
+        이미지에서 글자 컨투어 부분만 사각형 그리는 메소드
 
         :param imageOrigin: 원본 이미지
         :param contours: 잘라낼 contour 리스트
@@ -268,7 +226,7 @@ def drawContourss(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는
             newY = int(y-height_weight)
             if width > avg and height > avg:
                 if width > height:
-                    if height >= width * 80 / 100:
+                    if height >= width * 90 / 100:
                         cv2.rectangle(imageCopy, (newX, newY), (newX + width+ width_weight*2, newY + height + height_weight*2), (127, 25, 10), 3)
                         cv2.rectangle(imageCopy, (newX, newY), (newX + int(avg), newY + int(avg)), (50, 50, 200), 3)
                         info_for_crop.append((newX,newY,newX + width+ width_weight*2, newY + height + height_weight*2))
@@ -276,7 +234,7 @@ def drawContourss(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는
                         # if height < avg or height > avg * 3.5 or width > avg * 10:
                         if height < avg or height > avg * 3.5 or width > avg * 10 or (height>avg*2 and width>avg*2):
                             continue
-                        it_n = int(width / (height*8/10))
+                        it_n = int(width / (height*7/10))
                         for it in range(it_n):
                             cv2.rectangle(imageCopy, (newX, newY), (newX + int(width/it_n) +width_weight*2 , newY + height +height_weight*2), (127, 25, 10), 3)
                             cv2.rectangle(imageCopy, (newX, newY), (newX + int(avg), newY + int(avg)), (50, 50, 200), 3)
@@ -291,6 +249,40 @@ def drawContourss(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는
 
     return imageCopy, info_for_crop
 
+def drawContoursss(imageOrigin, contours): #컨투어 어떻게됐나 보는거
+    '''
+        임시 test -> 가장 큰 폰트사이즈 (세금계산서) 따려고 만든 메소드
+    '''
+    imageCopy = imageOrigin.copy()  # copy the image to be processed
+
+    info_for_crop = []
+    max = (1,1,1,1)
+    for contour in contours:  # Crop the screenshot with on bounding rectangles of contours
+        x, y, width, height = cv2.boundingRect(contour)  # top-left vertex coordinates (x,y) , width, height
+        # screenshot that are larger than the standard size
+        cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (50, 50, 200), 3)
+
+        if width>height and width> max[2]*9/10 and height>max[3]*9/10:
+            if height > width*9/10:
+                max = (x,y,width,height)
+        elif height>width and width> max[2]*9/10 and height>max[3]*9/10:
+            if width> height*9/10:
+                max = (x,y,width,height)
+
+    for contour in contours:  # Crop the screenshot with on bounding rectangles of contours
+        x, y, width, height = cv2.boundingRect(contour)  # top-left vertex coordinates (x,y) , width, height
+        if width>=height and width<=max[2]*2:
+            if (height>=max[3]*9/10 and height<=max[3]*10.5/10):
+                info_for_crop.append((x, y, width, height))
+                cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (50, 200, 50), 3)
+
+        elif height>= width and height<=max[3]*10.3/10:
+            if (width>=max[2]*9/10 and width<=max[2]*10.5/10):
+                info_for_crop.append((x, y, width, height))
+                cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (50, 200, 50), 3)
+
+    return imageCopy,info_for_crop
+
 def croppedContourss(imageOrigin, info_for_crop): # 실제 자르는거
     ''' 이미지에서 찾은 Contour 부분들을 잘라내어 반환합니다.
     각 contour 를 감싸는 외각 사각형에 여유분(padding)을 주어 이미지를 잘라냅니다.
@@ -302,6 +294,7 @@ def croppedContourss(imageOrigin, info_for_crop): # 실제 자르는거
     imageCopy = imageOrigin.copy()  # copy the image to be processed
     imageGray = cv2.cvtColor(imageCopy, cv2.COLOR_BGR2GRAY)
     dstImg = getThreshold(imageGray)
+
     # get configs
     padding = 7  # to give the padding when cropping the screenshot
     originHeight, originWidth = imageCopy.shape[:2]  # get image size
