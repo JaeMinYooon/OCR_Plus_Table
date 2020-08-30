@@ -203,7 +203,7 @@ def getTextContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보�
                         (text_contours['y'][i] + text_contours['h'][i]*90/100 ) and y > (text_contours['y'][i]+ text_contours['h'][i]*5/100) ]
             if result:
                 remove_list.append(i)
-        sorted(remove_list)
+        remove_list = sorted(remove_list)
         for i in reversed(remove_list):
             del text_contours['x'][i]
             del text_contours['y'][i]
@@ -229,7 +229,7 @@ def getTextContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보�
                     if height >= width * 90 / 100:
                         cv2.rectangle(imageCopy, (newX, newY), (newX + width+ width_weight*2, newY + height + height_weight*2), (127, 25, 10), 3)
                         cv2.rectangle(imageCopy, (newX, newY), (newX + int(avg), newY + int(avg)), (50, 50, 200), 3)
-                        info_for_crop.append((newX,newY,newX + width+ width_weight*2, newY + height + height_weight*2))
+                        info_for_crop.append((newX,newY,newX + width+ width_weight*2, newY + height + height_weight))
                     else:
                         # if height < avg or height > avg * 3.5 or width > avg * 10:
                         if height < avg or height > avg * 3.5 or width > avg * 10 or (height>avg*2 and width>avg*2):
@@ -238,14 +238,14 @@ def getTextContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보�
                         for it in range(it_n):
                             cv2.rectangle(imageCopy, (newX, newY), (newX + int(width/it_n) +width_weight*2 , newY + height +height_weight*2), (127, 25, 10), 3)
                             cv2.rectangle(imageCopy, (newX, newY), (newX + int(avg), newY + int(avg)), (50, 50, 200), 3)
-                            info_for_crop.append((newX, newY, newX + int(width/it_n) +width_weight*2 , newY + height +height_weight*2))
+                            info_for_crop.append((newX, newY, newX + int(width/it_n) +width_weight*2 , newY + height +height_weight))
                             newX += int(width/it_n)
                 else:
                     # if width >= height * 7 / 10 and (width < avg*3.5 or height < avg*3.5):
                     if width >= height * 7 / 10 and (height<avg*2 or width<avg*2):
                         cv2.rectangle(imageCopy, (newX, newY), (newX + width + width_weight*2, newY + height+ height_weight*2), (127, 25, 10), 3)
                         cv2.rectangle(imageCopy, (newX, newY), (newX + int(avg), newY + int(avg)), (50, 50, 200), 3)
-                        info_for_crop.append((newX,newY,newX + width+ width_weight*2, newY + height + height_weight*2))
+                        info_for_crop.append((newX,newY,newX + width+ width_weight*2, newY + height + height_weight))
 
     return imageCopy, info_for_crop
 
@@ -271,8 +271,16 @@ def getTitleContours(imageOrigin, contours): #컨투어 어떻게됐나 보는�
 
     for contour in contours:  # Crop the screenshot with on bounding rectangles of contours
         x, y, width, height = cv2.boundingRect(contour)  # top-left vertex coordinates (x,y) , width, height
-        if width>=height and width<=max[2]*2:
+        if width>=height and width<=max[2]*2.5:
             if (height>=max[3]*9/10 and height<=max[3]*10.5/10):
+                if width>=max[2]*1.8:
+                    it_n = int(width / (height * 9 / 10))
+                    for it in range(it_n):
+                        cv2.rectangle(imageCopy, (x, y), (x + int(width/it_n) , y + height), (50, 200, 50), 3)
+                        info_for_crop.append((x, y, int(width/it_n), height))
+                        x += int(width/it_n)
+                    continue
+            # if (height>=max[3]*9/10 and height<=max[3]*10.5/10):
                 info_for_crop.append((x, y, width, height))
                 cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (50, 200, 50), 3)
 
@@ -373,28 +381,90 @@ def croppedContours(imageOrigin, contours): # 실제 자르는거
     # print(coordinatesList)
     return croppedImages, coordinatesList
 
-def deleteInfoInTitlearea(titleInfo, contourInfo):
+def deleteInfoInTitleArea(titleInfo, contourInfo):
     remove_list = []
     for title_x,title_y,title_w,title_h in titleInfo:
-        fromX = title_x - (title_w*3/10)
-        fromY = title_y - (title_h*3/10)
-        toX = fromX + (title_w*16/10)
-        toY = fromY + (title_h*16/10)
+        fromX = title_x - (title_w*4/10)
+        fromY = title_y - (title_h*4/10)
+        toX = fromX + (title_w*18/10)
+        toY = fromY + (title_h*18/10)
+        print("title info ", title_x, title_y, title_w, title_h)
         for i in range(len(contourInfo) ):
             if contourInfo[i][0] < toX and contourInfo[i][0] > fromX and contourInfo[i][1] < toY and contourInfo[i][1] > fromY:
-                if i in remove_list:
-                    continue
-                remove_list.append(i)
+                if i not in remove_list:
+                    remove_list.append(i)
+    remove_list = sorted(remove_list)
     print(remove_list)
-    sorted(remove_list)
+    # for a in remove_list:
+    #     print(contourInfo[a])
     for i in reversed(remove_list):
+        print(contourInfo[i])
         del contourInfo[i]
+        print(len(contourInfo))
+    # for a in remove_list:
+    #     print(contourInfo[a])
 
     for x,y,w,h in titleInfo:
         contourInfo.append((x,y,x+w,y+h))
         # print(x,y,w,h)
 
     return contourInfo
+
+def deleteBlank(img, info):
+    imageCopy = img.copy()
+    imageGray = cv2.cvtColor(imageCopy, cv2.COLOR_BGR2GRAY)
+    dstImg = getThreshold(imageGray)
+    print("dstImg")
+    print(dstImg.shape)
+    removeList = []
+
+    black_list = []
+    white_list = []
+
+    for idx, (fromX, fromY, toX, toY) in enumerate(info):
+        width = toX - fromX
+        height = toY - fromY
+
+        # weight from x // weight to x
+        wfx = int(fromX + width*2/10)
+        wtx = int(toX - width*2/10)
+        wfy = int(fromY + height*2/10)
+        wty = int(toY - height*2/10)
+
+        cutImg = dstImg[wfy:wty, wfx:wtx]
+        cutWidth = wtx-wfx
+        cutHeight = wty-wfy
+        black = 0
+        white = 0
+
+        for ida in range(len(cutImg)):
+            for idb in range(len(cutImg[ida])):
+                if cutImg[ida][idb] < 10:
+                    black+=1
+                elif cutImg[ida][idb] > 245:
+                    white +=1
+        blackPercent = black/(cutWidth*cutHeight)
+        black_list.append(black)
+        white_list.append(white)
+
+        if blackPercent >= 0.89:
+            # cv2.imshow("bbbbb", cutImg)
+            # cv2.waitKey(0)
+            removeList.append(idx)
+    removeList = sorted(removeList)
+
+    # plt.figure()
+    # plt.ylabel('black')
+    # plt.xlabel('white')
+    # plt.scatter(white_list, black_list)
+    # # plt.scatter(textinfo['width'], textinfo['height'])
+    # plt.show()
+
+    for idx in reversed(removeList):
+        del info[idx]
+
+    return info
+
 
 def finalDraw(img, info):
     imageCopy = img.copy()

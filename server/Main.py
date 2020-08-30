@@ -46,9 +46,6 @@ def Cmain(dirPath, imagePath, type,resultdir, model=0):
     print(len(croppedImages))
     for cropImage in croppedImages:
         count += 1
-        if count==286:
-            cv2.imshow("t", cropImage)
-            cv2.waitKey(0)
         saveImage(cropImage, "./TextCrop/crop_" + str(count))
     # ===================    == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
 

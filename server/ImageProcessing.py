@@ -90,13 +90,18 @@ def processImage(image):
     cv2.imshow("text_contour", cv2.resize(text_contour, dsize=(0, 0), fx=0.2, fy=0.2, interpolation=cv2.INTER_LINEAR))
     cv2.waitKey(0)
 
-    finalContour_info = deleteInfoInTitlearea(title_contour_info, contour_info)
-
+    finalContour_info = deleteInfoInTitleArea(title_contour_info, contour_info)
     cv2.imshow("final", cv2.resize(finalDraw(wrappingImg, finalContour_info), dsize=(0, 0), fx=0.2, fy=0.2, interpolation=cv2.INTER_LINEAR))
     cv2.waitKey(0)
 
+    deletedBlank_info = deleteBlank(wrappingImg, finalContour_info)
+    deletedImg = finalDraw(wrappingImg, deletedBlank_info)
+    cv2.imwrite("contour_final.jpg", deletedImg)
+    cv2.imshow("blank", cv2.resize(deletedImg, dsize=(0, 0), fx=0.2, fy=0.2, interpolation=cv2.INTER_LINEAR))
+    cv2.waitKey(0)
+
     # return croppedContours(wrappingImg, contours)  # 글자로 추정되는 부분을 잘라낸 이미지들을 반환
-    return croppedContourss(wrappingImg, finalContour_info)  # 글자로 추정되는 부분을 잘라낸 이미지들을 반환
+    return croppedContourss(wrappingImg, deletedBlank_info)  # 글자로 추정되는 부분을 잘라낸 이미지들을 반환
 
 def order_points(pts):
     rect = np.zeros((4, 2), dtype="float32")
