@@ -6,9 +6,9 @@ import os
 import time
 import sys
 from Main import *
-from TFOCR.TFmain import load_Model
+# from TFOCR.TFmain import load_Model
 # 이미지 파일 저장경로
-src = "D:\\jaewon\\TextExtract3\\"
+src = "D:\\dev\\pyWorkSpace\\OSS\\server\\"
 
 def fileName():
     dte = time.localtime()
@@ -31,11 +31,11 @@ def getFileData(fileName, directory):
         for line in f:
             data += line
     return data
-model = load_Model()
+# model = load_Model()
 
 # 서버 소켓 오픈
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(("223.194.131.27", 5801))
+server_socket.bind(("192.168.0.27", 5801))
 server_socket.listen(5)
 print("TCPServer Waiting for client on port 5000")
 
@@ -76,12 +76,14 @@ while True:
     #print(toMain)
     #client_socket.send("ok".encode())
     try:
-        Cmain(imagePath= toMain ,model=model)
+        # Cmain(inputdir='./',imagePath='testcase5', type='.jpg', resultdir='./TestResult/')
+        Cmain(inputdir='./',imagePath= toMain ,type='.jpg',resultdir='./TestResult/')
         excetionCtrl = True
         print("성공!")
     except:
         excetionCtrl = False
         print("실패!")
+        continue
     client_socket.shutdown(socket.SHUT_RD)
     #client_socket.sendall(getFileData(toMain+'.jpg', src))
     if excetionCtrl == True:

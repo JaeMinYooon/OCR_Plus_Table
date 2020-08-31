@@ -135,7 +135,7 @@ def getTextContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보�
         sum = sum + width
     avg = sum / avgCount
     print("평균:", avg)
-
+    avg = 70
     text_contours = {
         'x':[],
         'y':[],
@@ -234,7 +234,9 @@ def getTextContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보�
                         # if height < avg or height > avg * 3.5 or width > avg * 10:
                         if height < avg/2 or height > avg * 3.5 or width > avg * 10 or (height>avg*2 and width>avg*2):
                             continue
-                        it_n = int(width / (height*9/10))
+                        it_n = int(width / (height*7/10))
+                        if width > height*2.9:
+                            it_n = int(width / (height * 8.15 / 10))
                         for it in range(it_n):
                             cv2.rectangle(imageCopy, (newX, newY), (newX + int(width/it_n) +width_weight , newY + height +height_weight), (127, 25, 10), 3)
                             cv2.rectangle(imageCopy, (newX, newY), (newX + int(avg), newY + int(avg)), (50, 50, 200), 3)
@@ -291,6 +293,12 @@ def getTitleContours(imageOrigin, contours): #컨투어 어떻게됐나 보는�
 
     return imageCopy,info_for_crop
 
+def testErosion(image):
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
+    imageErosion = cv2.erode(image, kernel, iterations=1)
+
+    return imageErosion
+
 def croppedContourss(imageOrigin, info_for_crop): # 실제 자르는거
     ''' 이미지에서 찾은 Contour 부분들을 잘라내어 반환합니다.
     각 contour 를 감싸는 외각 사각형에 여유분(padding)을 주어 이미지를 잘라냅니다.
@@ -302,7 +310,9 @@ def croppedContourss(imageOrigin, info_for_crop): # 실제 자르는거
     imageCopy = imageOrigin.copy()  # copy the image to be processed
     imageGray = cv2.cvtColor(imageCopy, cv2.COLOR_BGR2GRAY)
     dstImg = getThreshold(imageGray)
-
+    dstImg = testErosion(dstImg)
+    # cv2.imshow("testt", cv2.resize(dstImg, dsize=(0, 0), fx=0.2, fy=0.2, interpolation=cv2.INTER_LINEAR))
+    # cv2.waitKey(0)
     # get configs
     padding = 7  # to give the padding when cropping the screenshot
     originHeight, originWidth = imageCopy.shape[:2]  # get image size

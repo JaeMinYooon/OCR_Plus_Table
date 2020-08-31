@@ -11,12 +11,14 @@ from mExcel import *
 
 #from TFOCR.TFmain import *
 
-def Cmain(dirPath, imagePath, type,resultdir, model=0):
+def Cmain(inputdir,imagePath, type,resultdir, model=0):
     #imagePath = './Test/t11.jpg'
     #imagePath = 'test4.jpg'
 
-    image = cv2.imread(dirPath+imagePath+ type)
-
+    # image = cv2.imread(inputdir+imagePath+ type)
+    image = cv2.imread(imagePath+ type)
+    # cv2.imshow("opening", cv2.resize(image, dsize=(0, 0), fx=0.2, fy=0.2, interpolation=cv2.INTER_LINEAR))
+    # cv2.waitKey(0)
     fileList = glob.glob("./TableCrop/*"+ type)
     for f in fileList:
         os.remove(f)
@@ -54,7 +56,8 @@ def Cmain(dirPath, imagePath, type,resultdir, model=0):
     # print(index_list)
     #fontsize = getFontsize(coordinateList)
     root = set_base_xml(index_list, coordinateList)
-    makeExcel(root,resultdir+imagePath)
+    # makeExcel(root,resultdir+imagePath)
+    makeExcel(root,imagePath)
 
     main_process = Preprocessing.Preprocessing('document.jpg', verbose='v')
     main_process.process()
@@ -62,9 +65,10 @@ def Cmain(dirPath, imagePath, type,resultdir, model=0):
     #print(sortImages)
     # ========================================================================================
 
-if __name__ == '__main__':
-    #model = load_Model()
-    Cmain(dirPath='./TestCase/', imagePath='testcase5', type='.jpg', resultdir='./TestResult/')
-    # Cmain(dirPath='./TestCase/', imagePath='_erased_img', type='.png', resultdir='./TestResult/')
+# if __name__ == '__main__':
+#     #model = load_Model()
+#     # Cmain(dirPath='./TestCase/', imagePath='testcase5', type='.jpg', resultdir='./TestResult/')
+#     Cmain(inputdir='./TestCase/',imagePath='2020915319', type='.jpg', resultdir='./TestResult/')
+#     # Cmain(dirPath='./TestCase/', imagePath='_erased_img', type='.png', resultdir='./TestResult/')
 
 
