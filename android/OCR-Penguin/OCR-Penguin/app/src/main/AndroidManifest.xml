@@ -28,13 +28,13 @@
             android:theme="@style/splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name="com.app.client.MainActivity"/>
         <activity android:name="com.app.client.CameraActivity"/>
+        <activity android:name="com.app.client.TestActivity"/>
+        <activity android:name="com.app.client.CameraOverView"/>
         <activity android:name=".QuestionActivity"/>
     </application>
-
 </manifest>

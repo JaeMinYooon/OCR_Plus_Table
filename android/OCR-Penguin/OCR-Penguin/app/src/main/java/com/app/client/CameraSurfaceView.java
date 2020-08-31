@@ -1,7 +1,11 @@
 package com.app.client;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Camera;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -37,8 +41,21 @@ public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Call
         mCamera = Camera.open(); // 카메라 객체를 참조하여 변수에 할당
         mCamera.setDisplayOrientation(90); // 이게 없으면 미리보기 화면이 회전되어 나온다.
 
+
         try {
             mCamera.setPreviewDisplay(mHolder); // Camera 객체에 이 서피스뷰를 미리보기로 하도록 설정
+
+            int m_resWidth;
+            int m_resHeight;
+            m_resWidth = mCamera.getParameters().getPictureSize().width;
+            m_resHeight = mCamera.getParameters().getPictureSize().height;
+            Camera.Parameters parameters = mCamera.getParameters();
+            //아래 숫자를 변경하여 자신이 원하는 해상도로 변경한다
+            //m_resWidth = 4032;
+            //m_resHeight = 3024;
+            parameters.setPictureSize(m_resWidth, m_resHeight);
+            mCamera.setParameters(parameters);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

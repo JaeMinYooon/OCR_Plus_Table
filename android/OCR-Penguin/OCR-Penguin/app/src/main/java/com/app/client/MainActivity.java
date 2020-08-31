@@ -77,15 +77,14 @@ public class MainActivity extends AppCompatActivity {
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                pickUpPicture();
             }
         });
-
         ImageView camera = (ImageView) findViewById(R.id.camera);
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
+                Intent intent = new Intent(getApplicationContext(), TestActivity.class); //Test중
                 startActivity(intent);
             }
         });
@@ -132,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    void takePicture() { // 사진 찍기
+  /*  void takePicture() { // 사진 찍기
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         try {
             File phtoFile = createImageFile();
@@ -142,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private File createImageFile() throws IOException { // 찍은 사진을 파일 만들어주기
         // Create an image file name
@@ -216,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
             this.serverPort = port;
             this.filePath = filePath;
         }
-
+        // 이게 메인에 있어야하나봐.
         public void ThreadToast(final String message){
             runOnUiThread(new Runnable() {
                 @Override
@@ -240,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
                 DataOutputStream dos = new DataOutputStream(sock.getOutputStream());
                 byte[] buf = new byte[1024];
 
-                //while (true) {
+                //while (true) { 왜 이거 와일 주석이지? 글쎼 근데 run 계속 돌아가는중이라 while 필요없지안훈?
                 Log.d("connecting", "발신중...");
                 try {
                     //loading();
