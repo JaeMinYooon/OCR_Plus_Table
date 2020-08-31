@@ -11,7 +11,6 @@ from mExcel import *
 
 #from TFOCR.TFmain import *
 
-
 def Cmain(dirPath, imagePath, type,resultdir, model=0):
     #imagePath = './Test/t11.jpg'
     #imagePath = 'test4.jpg'
@@ -65,7 +64,7 @@ def Cmain(dirPath, imagePath, type,resultdir, model=0):
 
 if __name__ == '__main__':
     #model = load_Model()
-    Cmain(dirPath='./TestCase/', imagePath='testcase9', type='.jpg', resultdir='./TestResult/')
+    Cmain(dirPath='./TestCase/', imagePath='testcase5', type='.jpg', resultdir='./TestResult/')
     # Cmain(dirPath='./TestCase/', imagePath='_erased_img', type='.png', resultdir='./TestResult/')
 
 

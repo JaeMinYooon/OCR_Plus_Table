@@ -153,7 +153,7 @@ def getTextContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보�
         #     cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 2)
         if flag==1 or flag==2:
             # if
-            if width> avg and height > avg:
+            if width> avg/2 and height > avg/2 :
                 if width > height:
                     if height >= width * 80 / 100 :
                         text_contours['x'].append(x)
@@ -162,7 +162,7 @@ def getTextContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보�
                         text_contours['h'].append(height)
                         # cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
                     else:
-                        if height < avg or height > avg * 3.5 or width > avg * 10 or (height>avg*2 and width>avg*2):
+                        if height < avg/2 or height > avg * 3.5 or width > avg * 10 or (height>avg*2 and width>avg*2):
                         # if height < avg or height > avg*3.5 or width > avg * 10:
                             continue
                         # it_n = int(width / (height*8/10))
@@ -174,7 +174,7 @@ def getTextContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보�
                         text_contours['h'].append(height)
                         #     x += int(width/it_n)
                 else:
-                    if width >= height * 7 / 10 and (height<avg*2 or width<avg*2):
+                    if width >= height * 4 / 10 and (height<avg*3 or width<avg*3):
                     # if width >= height * 7 / 10 and (width < avg*3.5 or height < avg*3.5):
                         # cv2.rectangle(imageCopy, (x, y), (x + width, y + height), (127, 25, 10), 3)
                         text_contours['x'].append(x)
@@ -219,12 +219,12 @@ def getTextContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보�
             height = text_contours['h'][i]
 
             # 5% 만큼 글자보다 넓게 영역을 확보함
-            width_weight = int(width * 10 / 100)
-            height_weight = int(height * 10 / 100)
+            width_weight = int(width * 3 / 100)
+            height_weight = int(height * 3 / 100)
 
             newX = int(x-width_weight)
             newY = int(y-height_weight)
-            if width > avg and height > avg:
+            if width > avg/2 and height > avg/2:
                 if width > height:
                     if height >= width * 90 / 100:
                         cv2.rectangle(imageCopy, (newX, newY), (newX + width+ width_weight*2, newY + height + height_weight*2), (127, 25, 10), 3)
@@ -232,17 +232,17 @@ def getTextContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보�
                         info_for_crop.append((newX,newY,newX + width+ width_weight*2, newY + height + height_weight))
                     else:
                         # if height < avg or height > avg * 3.5 or width > avg * 10:
-                        if height < avg or height > avg * 3.5 or width > avg * 10 or (height>avg*2 and width>avg*2):
+                        if height < avg/2 or height > avg * 3.5 or width > avg * 10 or (height>avg*2 and width>avg*2):
                             continue
-                        it_n = int(width / (height*7/10))
+                        it_n = int(width / (height*9/10))
                         for it in range(it_n):
-                            cv2.rectangle(imageCopy, (newX, newY), (newX + int(width/it_n) +width_weight*2 , newY + height +height_weight*2), (127, 25, 10), 3)
+                            cv2.rectangle(imageCopy, (newX, newY), (newX + int(width/it_n) +width_weight , newY + height +height_weight), (127, 25, 10), 3)
                             cv2.rectangle(imageCopy, (newX, newY), (newX + int(avg), newY + int(avg)), (50, 50, 200), 3)
-                            info_for_crop.append((newX, newY, newX + int(width/it_n) +width_weight*2 , newY + height +height_weight))
+                            info_for_crop.append((newX, newY, newX + int(width/it_n) +width_weight , newY + height +height_weight))
                             newX += int(width/it_n)
                 else:
                     # if width >= height * 7 / 10 and (width < avg*3.5 or height < avg*3.5):
-                    if width >= height * 7 / 10 and (height<avg*2 or width<avg*2):
+                    if width >= height * 4 / 10 and (height<avg*3 or width<avg*3):
                         cv2.rectangle(imageCopy, (newX, newY), (newX + width + width_weight*2, newY + height+ height_weight*2), (127, 25, 10), 3)
                         cv2.rectangle(imageCopy, (newX, newY), (newX + int(avg), newY + int(avg)), (50, 50, 200), 3)
                         info_for_crop.append((newX,newY,newX + width+ width_weight*2, newY + height + height_weight))

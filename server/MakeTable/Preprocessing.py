@@ -326,7 +326,7 @@ class Preprocessing(object):
         print("wrap around: {}".format(np.uint8([50]) - np.uint8([100])))
         '''
         # 밝게하기(원본보다 100만큼 밝게(최대 255))
-        control = np.ones(image.shape, dtype="uint8") * 40
+        control = np.ones(image.shape, dtype="uint8") * 60
         brightnessImage = cv2.add(image, control)
         self.img = brightnessImage
 
