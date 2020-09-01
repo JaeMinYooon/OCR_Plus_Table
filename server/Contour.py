@@ -3,10 +3,10 @@ from ImageProcessing import *
 import cv2
 import ImageProcessing
 
-import matplotlib.pyplot as plt
-from sklearn.cluster import KMeans
-import seaborn as sns
-import pandas as pd
+# import matplotlib.pyplot as plt
+# from sklearn.cluster import KMeans
+# import seaborn as sns
+# import pandas as pd
 
 def getContours(image):
     ''' 이미지에서 Contour 를 추출하여 반환합니다.
@@ -18,15 +18,9 @@ def getContours(image):
     # 이미지로부터 컨투어 찾기
     contours, _ = cv2.findContours(image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     return contours
-
+'''
 def drawTextContours(imageOrigin, contours): #컨투어 어떻게됐나 보는거
-    ''' 이미지에서 글자들의 크기 분포를 확인하여 클러스터링 합니다.
-    군집별 편차가 비 정상적인 경우 글자가 아니라고 판단합니다.
 
-    :param imageOrigin:
-    :param contours:
-    :return:
-    '''
     imageCopy = imageOrigin.copy()  # copy the image to be processed
     textinfo = {
         'width':[],
@@ -68,6 +62,7 @@ def drawTextContours(imageOrigin, contours): #컨투어 어떻게됐나 보는�
     plt.show()
 
     return None
+'''
 def drawContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는거
     '''
         전체 컨투어 되는 것에 사각형 그리는 메소드
