@@ -159,8 +159,8 @@ class Preprocessing(object):
     def _show_img(self, title, target_img):
         temp_img = np.copy(target_img)
         if self.verbose.startswith('v'):
-            #if self.origin_width > 1000 or self.origin_height > 1000:
-            #    temp_img = cv2.resize(temp_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+            if self.origin_width > 1000 or self.origin_height > 1000:
+               temp_img = cv2.resize(temp_img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
             # cv2.imshow(title, temp_img)
             # cv2.waitKey(0)
             cv2.imwrite('./data/result/' + title + '.png', temp_img)
@@ -380,7 +380,7 @@ class Preprocessing(object):
                 find_min_height = height
             # Draw screenshot that are larger than the standard size
             if width > min_width or height > min_height:
-                # self.line_image = cv2.rectangle(self.line_image, (x, y), (x + width, y + height), (255, 0, 0, 50), 2)
+                #self.line_image = cv2.rectangle(self.line_image, (x, y), (x + width, y + height), (255, 0, 0, 50), 2)
                 needed_x.append(x)
                 needed_x.append(x + width)
                 needed_y.append(y)
@@ -410,8 +410,8 @@ class Preprocessing(object):
         # 가장 작은 contour rectangle의 width와 height를 기준으로 유사한 값을 압축
         # print("***")
         # print(needed_x, ", ", needed_y)
-        self.final_x = self.approx_axis(needed_x, int(find_min_width * 0.5),0)
-        self.final_y = self.approx_axis(needed_y, int(find_min_height * 0.5),1)
+        self.final_x = self.approx_axis(needed_x, int(find_min_width * 0.5), 0)
+        self.final_y = self.approx_axis(needed_y, int(find_min_height * 0.5), 1)
 
         self.draw_axis()
 
@@ -515,14 +515,9 @@ class Preprocessing(object):
                     self.cells[cols][rows].cell_name = ascii_uppercase[rows] + "%d" % (cols + 1)
                     self.cells[cols][rows].merged_info = ascii_uppercase[rows] + "%d" % (cols + 1)
                     self.before_merged[cols][rows].cell_name = ascii_uppercase[rows] + "%d" % (cols + 1)
-                    # print("x<26 : " + self.cells[cols][rows].cell_name)
-                    # print(rows)
                 else:
                     self.cells[cols][rows].cell_name = ascii_uppercase[int(rows/26)-1] + ascii_uppercase[rows%26] + "%d" % (cols + 1)
                     self.cells[cols][rows].merged_info = ascii_uppercase[int(rows/26)-1] + ascii_uppercase[rows%26] + "%d" % (cols + 1)
-                    self.before_merged[cols][rows].cell_name = ascii_uppercase[int(rows/26)-1] + ascii_uppercase[rows%26] + "%d" % (cols + 1)
-                    # print("x>26 : " + self.cells[cols][rows].cell_name)
-                    # print(rows)
 
                 # 본인의 cell_name과 merged_info가 같으면 머지 되지 않은 것
 
@@ -704,6 +699,7 @@ class Preprocessing(object):
         #self.resize_image(img)
         #self.resize_image()
         # cv2.imshow("tt", self.img)
+
         self.image_warping()
         self.brightness()
 
@@ -711,7 +707,7 @@ class Preprocessing(object):
         self.detect_contours()
         self.morph_closing()
         self.erase_line()
-        # self.detect_line()
+        #self.detect_line()
         self.cal_cell_needed()
         self.save_cell_value()
         self.find_cell_boundary()
