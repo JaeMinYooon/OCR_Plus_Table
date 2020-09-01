@@ -1,6 +1,11 @@
 .idea/
 *.xlsx
+*.zip
 server/**/*.png
 server/**/*.jpg
 server/*.jpg
 server/*.png
+
+server/**/*.index
+server/**/*.pb
+server/**/*.data-00000-of-00001
