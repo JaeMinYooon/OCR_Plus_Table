@@ -79,7 +79,7 @@ def drawContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보는�
         avgCount = avgCount + 1
         sum = sum + width
     avg = sum / avgCount
-    print("평균:", avg)
+
     for contour in contours:  # Crop the screenshot with on bounding rectangles of contours
         x, y, width, height = cv2.boundingRect(contour)  # top-left vertex coordinates (x,y) , width, height
         # screenshot that are larger than the standard size
@@ -129,7 +129,7 @@ def getTextContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보�
         avgCount = avgCount + 1
         sum = sum + width
     avg = sum / avgCount
-    print("평균:", avg)
+
     avg = 70
     text_contours = {
         'x':[],
@@ -317,6 +317,8 @@ def croppedContourss(imageOrigin, info_for_crop): # 실제 자르는거
     for info in info_for_crop:  # Crop the screenshot with on bounding rectangles of contours
         i+=1
         x, y, width, height = info  # top-left vertex coordinates (x,y) , width, height
+        if x>0 and x<150 and y>0 and y<1000:
+            print("crop index : ", i)
         # print(x,y,width,height)
         cropped = dstImg[y: height, x: width] #★★★★★
         croppedImages.append(cropped)  # add to the list
@@ -346,11 +348,10 @@ def croppedContours(imageOrigin, contours): # 실제 자르는거
     for contoursCount in contours:
         _, _, width, height = cv2.boundingRect(contoursCount)
         if (width < 100 or height < 100) and (width > 20 or height > 20):
-            # print(width)
+
             avgCount = avgCount + 1
             sum = sum + width
     avg = sum / avgCount
-    #print("평균:", avg)
 
     # avg 값 고쳐주기
     if avg < 30 and avg > 20:
@@ -419,8 +420,7 @@ def deleteBlank(img, info):
     imageCopy = img.copy()
     imageGray = cv2.cvtColor(imageCopy, cv2.COLOR_BGR2GRAY)
     dstImg = getThreshold(imageGray)
-    print("dstImg")
-    print(dstImg.shape)
+
     removeList = []
 
     black_list = []
@@ -474,6 +474,11 @@ def deleteBlank(img, info):
 def finalDraw(img, info):
     imageCopy = img.copy()
     for x,y,w,h in info:
+        if x >0 and x< 150 and y >0 and y < 1000:
+            cv2.rectangle(imageCopy, (x, y), (w, h), (50, 50, 200), 3)
+            print("###")
+            print(x,y,w,h)
+            continue
         cv2.rectangle(imageCopy, (x, y), (w, h), (50, 200, 50), 3)
     return imageCopy
 

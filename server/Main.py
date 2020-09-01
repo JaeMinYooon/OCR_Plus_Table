@@ -36,8 +36,6 @@ def Cmain(inputdir,imagePath, type,resultdir, model=0):
     fileList = glob.glob("./TextCrop/*" + type)
     for f in fileList:
         os.remove(f)
-    print("doc")
-    print(image.shape)
 
     # 표만들기 ================================================================================
     resizeFile(image)
@@ -64,7 +62,7 @@ def Cmain(inputdir,imagePath, type,resultdir, model=0):
     # 정렬하기 ================================================================================
 
     #xmlP(coordinateList)
-    # print(index_list)
+    print(index_list)
     #fontsize = getFontsize(coordinateList)
     root = set_base_xml(index_list, coordinateList)
     makeExcel(root,resultpath)
@@ -77,6 +75,6 @@ def Cmain(inputdir,imagePath, type,resultdir, model=0):
 
 if __name__ == '__main__':
 #     #model = load_Model()
-    Cmain(inputdir='./TestCase/', imagePath='testcase5', type='.jpg', resultdir='./TestResult/')
-#     Cmain(inputdir='./TestCase/',imagePath='2020915319', type='.jpg', resultdir='./TestResult/')
+#     Cmain(inputdir='./TestCase/', imagePath='testcase5', type='.jpg', resultdir='./TestResult/')
+    Cmain(inputdir='./TestCase/',imagePath='testc2', type='.jpg', resultdir='./TestResult/', model=1)
 #     # Cmain(dirPath='./TestCase/', imagePath='_erased_img', type='.png', resultdir='./TestResult/')

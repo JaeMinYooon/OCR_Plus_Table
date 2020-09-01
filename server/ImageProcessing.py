@@ -8,9 +8,8 @@ from Contour import *
 def erase_line(image):
     line_img = cv2.imread('./data/result/_wrap_erased_img.png')
     w,h,_ = image.shape
-    print("##")
+
     line_img = cv2.resize(line_img, dsize=(h, w), interpolation=cv2.INTER_AREA)
-    print(line_img.shape)
     erased_img = cv2.addWeighted(image, 1, line_img , 1, 0)
     cv2.imwrite('./contour_erasedline.jpg', erased_img)
     return erased_img
@@ -78,8 +77,7 @@ def processImage(image):
 
     contours = getContours(imageErosion)
     # drawTextContours(wrappingImg, contours)
-    print("####")
-    print(wrappingImg.shape)
+
     cv2.imwrite("result.jpg", imageErosion)
 
     all_contour, _ = drawContours(wrappingImg, contours,0)

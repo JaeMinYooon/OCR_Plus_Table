@@ -24,8 +24,6 @@ class Preprocessing(object):
 
         #self.Origin_image = cv2.imread(img_file)
         self.Origin_image = self.img.copy()
-        print("#######")
-        print(self.Origin_image.shape)
         self.line_image = self.img * 0  # image that only lines will be drawn
         self.erased_line = None  # image that will be erased  with white color
         self.closing_line = None
@@ -94,7 +92,7 @@ class Preprocessing(object):
         maxWidth = max([w1, w2])
         maxHeight = max([h1, h2])
 
-        dst = np.float32([[0, 0], [maxWidth - 1, 0], [maxWidth - 1, maxHeight - 1], [0, maxHeight - 1]])
+        dst = np.float32([[0, 0], [maxWidth + 10, 0], [maxWidth + 10, maxHeight - 1], [0, maxHeight - 1]])
         M = cv2.getPerspectiveTransform(rect, dst)
         warped = cv2.warpPerspective(orig, M, (maxWidth, maxHeight))
 
@@ -241,8 +239,6 @@ class Preprocessing(object):
         """
         # repeat contour detection
         imgray = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
-        # print(self.line_image.shape)
-        # print("###")
         mode = 'detect'
         thr = self._get_threshold(imgray, mode)
 
@@ -275,13 +271,9 @@ class Preprocessing(object):
         # self.closing_line = cv2.cvtColor(self.closing_line, cv2.COLOR_GRAY2BGR)
         self.erased_line = cv2.addWeighted(self.Origin_image, 1, self.closing_line, 1, 0)
         self._show_img('_erased_img', self.erased_line)
-        # print(self.Origin_image.shape)
-        # print(self.closing_line.shape)
-        print("self.img")
         x,y,_ = self.img.shape
         wrap_line_image = self.closing_line[:x, :y]
         wrap_line_image = cv2.resize(wrap_line_image, (y*4, x*4), interpolation=cv2.INTER_AREA )
-        print(wrap_line_image.shape)
         # self.erased_line = cv2.addWeighted(self.img, 1, self.closing_line, 1, 0)
         self._show_img('_wrap_erased_img', wrap_line_image)
 
@@ -498,13 +490,12 @@ class Preprocessing(object):
         # print("%%%"+str(h)+" "+str(w))
         self.before_merged = [[Cell() for rows in range(len(self.final_x) - 1)] for cols in
                               range(len(self.final_y) - 1)]
-        # print(len(self.final_x))
-        # print(len(self.final_y))
+
         for cols in range(len(self.final_y)-1):
             for rows in range(len(self.final_x) - 1):
                 x = self.final_x[rows]
                 y = self.final_y[cols]
-                # print("x : ", x, "y: ", y)
+
                 width = self.final_x[rows + 1] - self.final_x[rows]
                 height = self.final_y[cols + 1] - self.final_y[cols]
 
@@ -527,14 +518,9 @@ class Preprocessing(object):
         """ line_image를 기준으로 각 Cell의 중심 좌표에서 상하좌우로 흰색(b,g,r = 255)값이 있는지 판별합니다.
         만약 흰색값이 있다면 경계(boundary)가 있는 것으로 판별합니다.
         """
-        print(self.final_x)
-        print(self.final_y)
-
         for cols in range(len(self.final_y) - 1):
             for rows in range(len(self.final_x) - 1):
                 x, y, width, height, central_x, central_y = self.cells[cols][rows]._get_value()
-                # print("&&&")
-                # print(x, y, width, height, central_x, central_y)
                 if rows == 0:
                     self.cells[cols][rows].boundary['left'] = True
                 if rows == len(self.final_x) - 1:
@@ -546,8 +532,6 @@ class Preprocessing(object):
 
                 # 'white'의 b != 0
                 for left in range(x + 1, central_x):
-                    # print("central_y : "+str(central_y)+ " * left :  "+str(left))
-                    # print(str(len(self.line_image))+str(self.final_y))
                     if self.line_image.item(central_y, left, 0) != 0:
                         self.cells[cols][rows].boundary['left'] = True
                         break

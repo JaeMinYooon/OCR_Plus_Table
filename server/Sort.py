@@ -104,7 +104,7 @@ def slice_dataframe(x,y,w,h,df):
 
 def sort_in_cell(cell_info, df):
     x,y,w,h = cell_info
-    slice_df = slice_dataframe(x,y,w,h, df)
+    slice_df = slice_dataframe(x-2,y,w,h, df)
     line_num = judge_linebreak(slice_df)
 
     sameline_range = 30
