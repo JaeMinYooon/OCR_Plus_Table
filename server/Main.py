@@ -9,7 +9,7 @@ from Sort import *
 from mExcel import *
 #from MakeTable.Preprocessing import *
 
-#from TFOCR.TFmain import *
+from TFOCR.OCRModel import *
 
 def Cmain(inputdir,imagePath, type,resultdir, model=0):
     #imagePath = './Test/t11.jpg'
@@ -23,6 +23,7 @@ def Cmain(inputdir,imagePath, type,resultdir, model=0):
     resultpath = ''
     if model == 0:
         resultpath = resultdir+imagePath
+        model = loadOCRmodel('./TFOCR/Model')
     else:
         resultpath = imagePath
 
@@ -64,17 +65,18 @@ def Cmain(inputdir,imagePath, type,resultdir, model=0):
     #xmlP(coordinateList)
     print(index_list)
     #fontsize = getFontsize(coordinateList)
-    root = set_base_xml(index_list, coordinateList)
-    makeExcel(root,resultpath)
 
-    main_process = Preprocessing.Preprocessing('document.jpg', verbose='v')
-    main_process.process()
-    sortImages = main_process.cal_cell_needed()
-    #print(sortImages)
+    root = set_base_xml(index_list, coordinateList)
+    predictedText = predicts(model)
+
+    root = make_input(root, predictedText)
+    makeExcel(root,resultpath)
     # ========================================================================================
+
+
 
 if __name__ == '__main__':
 #     #model = load_Model()
-#     Cmain(inputdir='./TestCase/', imagePath='testcase5', type='.jpg', resultdir='./TestResult/')
-    Cmain(inputdir='./TestCase/',imagePath='testc2', type='.jpg', resultdir='./TestResult/', model=1)
+    Cmain(inputdir='./TestCase/', imagePath='testcase5', type='.jpg', resultdir='./TestResult/')
+#     Cmain(inputdir='./TestCase/',imagePath='testc2', type='.jpg', resultdir='./TestResult/', model=1)
 #     # Cmain(dirPath='./TestCase/', imagePath='_erased_img', type='.png', resultdir='./TestResult/')
