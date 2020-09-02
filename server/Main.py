@@ -67,7 +67,7 @@ def Cmain(inputdir,imagePath, type,resultdir, model=0):
     #fontsize = getFontsize(coordinateList)
 
     root = set_base_xml(index_list, coordinateList)
-    predictedText = predicts(model)
+    predictedText = predicts('./TextCrop/',model)
 
     root = make_input(root, predictedText)
     makeExcel(root,resultpath)

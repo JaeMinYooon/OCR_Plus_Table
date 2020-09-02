@@ -59,8 +59,8 @@ def predicts(dir_path, model):
     test_ds = tf.data.Dataset.list_files(str(test_dir / "*.jpg"), shuffle=False)
 
     test = {
-        'test_names': [],
-        'test_labels': []
+        'name': [],
+        'label': []
     }
     test_images = list()
 
@@ -68,13 +68,17 @@ def predicts(dir_path, model):
 
     for path in test_ds:
         img = decode_image(path)
-        test['test_names'].append(path)
+        test['name'].append(path)
         test_images.append(img)
 
     test_images = np.array(test_images)
 
     predictions = model.predict_classes(test_images)
-    # print(predictions)
-    test['test_labels'] = class_names[predictions]
 
+    for prediction in predictions:
+        test['label'].append(class_names[prediction])
+    print(test)
     return test
+
+# model = loadOCRmodel('./Model')
+# print(predicts('../TextCrop/',model))
