@@ -15,7 +15,7 @@ def Cmain(inputdir,imagePath, type,resultdir, model=0):
     #imagePath = './Test/t11.jpg'
     #imagePath = 'test4.jpg'
     inputpath=''
-    if model==0:
+    if model==0 or model==1:
         inputpath = inputdir+imagePath+ type
     else:
         inputpath = imagePath+ type
@@ -24,6 +24,8 @@ def Cmain(inputdir,imagePath, type,resultdir, model=0):
     if model == 0:
         resultpath = resultdir+imagePath
         model = loadOCRmodel('./TFOCR/Model')
+    elif model==1:
+        resultpath = resultdir + imagePath
     else:
         resultpath = imagePath
 
@@ -60,23 +62,25 @@ def Cmain(inputdir,imagePath, type,resultdir, model=0):
         saveImage(cropImage, "./TextCrop/crop_" + str(count))
     # ===================    == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
 
-    # 정렬하기 ================================================================================
+    # 정렬, 엑셀 병합 ================================================================================
 
     #xmlP(coordinateList)
     print(index_list)
     #fontsize = getFontsize(coordinateList)
 
     root = set_base_xml(index_list, coordinateList)
-    predictedText = predicts('./TextCrop/',model)
 
+    predictedText = predicts('./TextCrop/',model)
     root = make_input(root, predictedText)
+
     makeExcel(root,resultpath)
     # ========================================================================================
 
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
 #     #model = load_Model()
-    Cmain(inputdir='./TestCase/', imagePath='testcase5', type='.jpg', resultdir='./TestResult/')
-#     Cmain(inputdir='./TestCase/',imagePath='testc2', type='.jpg', resultdir='./TestResult/', model=1)
+#     Cmain(inputdir='./TestCase/', imagePath='testcase9', type='.jpg', resultdir='./TestResult/',model=1)
+#     Cmain(inputdir='./TestCase/', imagePath='testcase9', type='.jpg', resultdir='./TestResult/',model=0)
+#     Cmain(inputdir='./',imagePath='testc2', type='.jpg', resultdir='./')
 #     # Cmain(dirPath='./TestCase/', imagePath='_erased_img', type='.png', resultdir='./TestResult/')

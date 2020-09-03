@@ -38,11 +38,12 @@ def processImage(image):
     # wrappingImg = cv2.resize(wrappingImg, (4*wid,4*hei),interpolation=cv2.INTER_AREA)
     imageGray = getGrayImage(eraseedImg) # 이미지 회색으로 바꿔주는 것
     imageBrightness = getBrightness(imageGray)
-    # cv2.imshow("birght", cv2.resize(imageBrightness, dsize=(0, 0), fx=0.4, fy=0.4, interpolation=cv2.INTER_LINEAR))
+
+    # cv2.imshow("birght", cv2.resize(imageBrightness, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
     # cv2.waitKey(0)
 
     imageErosion = getAdaptiveThreshold(imageBrightness) # 이미지를 검은색 아니면 흰색을 바꿔주기 + 블러 처리
-    # cv2.imshow("thresh", cv2.resize(imageErosion, dsize=(0, 0), fx=0.4, fy=0.4, interpolation=cv2.INTER_LINEAR))
+    # cv2.imshow("thresh", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
     # cv2.waitKey(0)
     # Long line remove
     # Morph Close
@@ -52,10 +53,10 @@ def processImage(image):
     # imageErosion = getErosion(imageDilation)
 
     imageErosion = getErosion(imageErosion)
-    # cv2.imshow("getErosion", cv2.resize(imageErosion, dsize=(0, 0), fx=0.2, fy=0.2, interpolation=cv2.INTER_LINEAR))
+    # cv2.imshow("Erosion", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
     # cv2.waitKey(0)
     imageErosion = getClosing(imageErosion)
-    # cv2.imshow("getClosing", cv2.resize(imageErosion, dsize=(0, 0), fx=0.2, fy=0.2, interpolation=cv2.INTER_LINEAR))
+    # cv2.imshow("Closing", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
     # cv2.waitKey(0)
 
     # CopyTitleImg = imageErosion.copy()
@@ -69,10 +70,10 @@ def processImage(image):
     # cv2.waitKey(0)
 
     imageErosion = getDilation(imageErosion, (9,9))
-    # cv2.imshow("diliation", cv2.resize(imageErosion, dsize=(0, 0), fx=0.2, fy=0.2, interpolation=cv2.INTER_LINEAR))
+    # cv2.imshow("Diliation", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
     # cv2.waitKey(0)
     imageErosion = getOpening(imageErosion)
-    # cv2.imshow("opening", cv2.resize(imageErosion, dsize=(0, 0), fx=0.2, fy=0.2, interpolation=cv2.INTER_LINEAR))
+    # cv2.imshow("Opening", cv2.resize(imageErosion, dsize=(0, 0), fx=0.3, fy=0.3, interpolation=cv2.INTER_LINEAR))
     # cv2.waitKey(0)
 
     contours = getContours(imageErosion)

@@ -72,11 +72,14 @@ def judge_spacebreak(df_for_Xsort):
     word_num = 1
     if len(df_for_Xsort.values) != 1:
         avg_width = round(df_for_Xsort.iloc[:, 2].mean())
-        allow_range = avg_width + 25
-        if allow_range < 90:
-            allow_range += 5
-        if allow_range > 100:
-            allow_range -= 5
+        print("avg_width", avg_width)
+        allow_range = avg_width+5
+        # if allow_range <= 75:
+        #     allow_range += 3
+        # if allow_range > 75:
+        #     allow_range -= 3
+        print("                       allow_range", allow_range)
+        print(df_for_Xsort)
         minX = int(df_for_Xsort.iloc[0, 0])
         next_minX = int(df_for_Xsort.iloc[1, 0])
         if next_minX - minX <= allow_range:
@@ -104,7 +107,7 @@ def slice_dataframe(x,y,w,h,df):
 
 def sort_in_cell(cell_info, df):
     x,y,w,h = cell_info
-    slice_df = slice_dataframe(x-2,y,w,h, df)
+    slice_df = slice_dataframe(x-20,y,w,h, df)
     line_num = judge_linebreak(slice_df)
 
     sameline_range = 30

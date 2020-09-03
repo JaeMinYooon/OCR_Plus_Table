@@ -214,8 +214,8 @@ def getTextContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보�
             height = text_contours['h'][i]
 
             # 5% 만큼 글자보다 넓게 영역을 확보함
-            width_weight = int(width * 3 / 100)
-            height_weight = int(height * 3 / 100)
+            width_weight = int(width * 5 / 100)
+            height_weight = int(height * 5 / 100)
 
             newX = int(x-width_weight)
             newY = int(y-height_weight)
@@ -224,7 +224,7 @@ def getTextContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보�
                     if height >= width * 90 / 100:
                         cv2.rectangle(imageCopy, (newX, newY), (newX + width+ width_weight*2, newY + height + height_weight*2), (127, 25, 10), 3)
                         cv2.rectangle(imageCopy, (newX, newY), (newX + int(avg), newY + int(avg)), (50, 50, 200), 3)
-                        info_for_crop.append((newX,newY,newX + width+ width_weight*2, newY + height + height_weight))
+                        info_for_crop.append((newX,newY, width+ width_weight*2, height + height_weight))
                     else:
                         # if height < avg or height > avg * 3.5 or width > avg * 10:
                         if height < avg/2 or height > avg * 3.5 or width > avg * 10 or (height>avg*2 and width>avg*2):
@@ -235,14 +235,14 @@ def getTextContours(imageOrigin, contours,flag): #컨투어 어떻게됐나 보�
                         for it in range(it_n):
                             cv2.rectangle(imageCopy, (newX, newY), (newX + int(width/it_n) +width_weight , newY + height +height_weight), (127, 25, 10), 3)
                             cv2.rectangle(imageCopy, (newX, newY), (newX + int(avg), newY + int(avg)), (50, 50, 200), 3)
-                            info_for_crop.append((newX, newY, newX + int(width/it_n) +width_weight , newY + height +height_weight))
+                            info_for_crop.append((newX, newY, int(width/it_n) +width_weight , height +height_weight))
                             newX += int(width/it_n)
                 else:
                     # if width >= height * 7 / 10 and (width < avg*3.5 or height < avg*3.5):
                     if width >= height * 4 / 10 and (height<avg*3 or width<avg*3):
                         cv2.rectangle(imageCopy, (newX, newY), (newX + width + width_weight*2, newY + height+ height_weight*2), (127, 25, 10), 3)
                         cv2.rectangle(imageCopy, (newX, newY), (newX + int(avg), newY + int(avg)), (50, 50, 200), 3)
-                        info_for_crop.append((newX,newY,newX + width+ width_weight*2, newY + height + height_weight))
+                        info_for_crop.append((newX,newY, width+ width_weight*2, height + height_weight))
 
     return imageCopy, info_for_crop
 
@@ -320,7 +320,7 @@ def croppedContourss(imageOrigin, info_for_crop): # 실제 자르는거
         if x>0 and x<150 and y>0 and y<1000:
             print("crop index : ", i)
         # print(x,y,width,height)
-        cropped = dstImg[y: height, x: width] #★★★★★
+        cropped = dstImg[y: y+height, x: x+width] #★★★★★
         croppedImages.append(cropped)  # add to the list
 
     # print(coordinatesList)
@@ -426,9 +426,9 @@ def deleteBlank(img, info):
     black_list = []
     white_list = []
 
-    for idx, (fromX, fromY, toX, toY) in enumerate(info):
-        width = toX - fromX
-        height = toY - fromY
+    for idx, (fromX, fromY, width, height) in enumerate(info):
+        toX = fromX+width
+        toY = fromY+height
 
         # weight from x // weight to x
         wfx = int(fromX + width*2/10)
@@ -474,12 +474,12 @@ def deleteBlank(img, info):
 def finalDraw(img, info):
     imageCopy = img.copy()
     for x,y,w,h in info:
-        if x >0 and x< 150 and y >0 and y < 1000:
-            cv2.rectangle(imageCopy, (x, y), (w, h), (50, 50, 200), 3)
-            print("###")
-            print(x,y,w,h)
-            continue
-        cv2.rectangle(imageCopy, (x, y), (w, h), (50, 200, 50), 3)
+        # if x >0 and x< 150 and y >0 and y < 1000:
+        #     cv2.rectangle(imageCopy, (x, y), (x+w, y+h), (50, 50, 200), 3)
+        #     print("###")
+        #     print(x,y,x+w,y+h)
+        #     continue
+        cv2.rectangle(imageCopy, (x, y), (x+w, y+h), (50, 200, 50), 3)
     return imageCopy
 
 def getThreshold(imageGray):

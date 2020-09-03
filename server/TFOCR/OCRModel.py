@@ -52,12 +52,12 @@ def decode_image(filename):
     parts = tf.strings.split(filename, os.sep)
     label = tf.strings.split(parts[-1], ".jpg")[0]
 
-    return image.numpy()
+    return image.numpy(), label.numpy()
 
 def predicts(dir_path, model):
     test_dir = pathlib.Path(dir_path)
-    test_ds = tf.data.Dataset.list_files(str(test_dir / "*.jpg"), shuffle=False)
-
+    # test_ds = tf.data.Dataset.list_files(str(test_dir / "*.jpg"), shuffle=False)
+    fileList = os.listdir(dir_path)
     test = {
         'name': [],
         'label': []
@@ -66,8 +66,10 @@ def predicts(dir_path, model):
 
     # test_ds = list(test_dir.glob('*.jpg'))
 
-    for path in test_ds:
-        img = decode_image(path)
+    for path in fileList:
+        if 'jpg' not in path:
+            continue
+        img, label = decode_image(dir_path+path)
         test['name'].append(path)
         test_images.append(img)
 

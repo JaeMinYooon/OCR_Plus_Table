@@ -92,7 +92,9 @@ class Preprocessing(object):
         maxWidth = max([w1, w2])
         maxHeight = max([h1, h2])
 
-        dst = np.float32([[0, 0], [maxWidth + 10, 0], [maxWidth + 10, maxHeight - 1], [0, maxHeight - 1]])
+        # dst = np.float32([[0, 0], [maxWidth + 10, 0], [maxWidth + 10, maxHeight - 1], [0, maxHeight - 1]])
+        # 맨 오른쪽 칸
+        dst = np.float32([[0, 0], [maxWidth -1, 0], [maxWidth-1, maxHeight - 1], [0, maxHeight - 1]])
         M = cv2.getPerspectiveTransform(rect, dst)
         warped = cv2.warpPerspective(orig, M, (maxWidth, maxHeight))
 
