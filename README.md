@@ -5,7 +5,7 @@
 
 ## Team
 * FirstPenguin
-* [강찬혁](github.com/CHkkang)
+* [강찬혁](https://github.com/CHkkang)
 * [윤재민](
 * [정지성](
 * [조재원])
