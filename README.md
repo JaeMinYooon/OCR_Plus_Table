@@ -5,6 +5,7 @@
 
 ## Team
 * FirstPenguin
+<img width="400" alt="SystemArchitecture" src="https://user-images.githubusercontent.com/52397398/105131585-8ef45d00-5b2c-11eb-926d-23a8d21662cd.jpg">
 
 ## System Architecture
 <img width="1128" alt="SystemArchitecture" src="https://user-images.githubusercontent.com/52397398/105130589-ab8f9580-5b2a-11eb-89c8-984564e0c7ae.jpg">
