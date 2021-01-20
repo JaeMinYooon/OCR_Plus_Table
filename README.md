@@ -3,7 +3,8 @@
 ## Description
 
 <p>문서를 사진 한번에 표와 텍스트를 추출하여 엑셀로 만들어주는 어플리케이션</p>
-
+## System Architecture
+![Architecture]()
 ## System Environments:
 
 	* Android compileSdkVersion: 28
