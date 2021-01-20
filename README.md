@@ -29,4 +29,5 @@
 ## License
 [Apache-2.0](https://choosealicense.com/licenses/apache-2.0/)
 
-<p align="center"><img width="400" alt="SystemArchitecture" src="https://user-images.githubusercontent.com/52397398/105131585-8ef45d00-5b2c-11eb-926d-23a8d21662cd.jpg"></p>
+-----
+<img width="400" alt="SystemArchitecture" src="https://user-images.githubusercontent.com/52397398/105131585-8ef45d00-5b2c-11eb-926d-23a8d21662cd.jpg">
