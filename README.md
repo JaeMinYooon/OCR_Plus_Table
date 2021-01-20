@@ -4,7 +4,7 @@
 * 오픈소스소프트웨어 개발자 대회 은상
 
 ## Team
-* FirstPenguin([강찬혁](https://github.com/CHkkang) [윤재민](https://github.com/JaeMinYooon) [정지성](https://github.com/JunJibsa) [조재원](https://github.com/tgbyhn3))
+* FirstPenguin([강찬혁](https://github.com/CHkkang) [윤재민](https://github.com/JaeMinYooon) [정지성](https://github.com/Jeongjibsa) [조재원](https://github.com/jaaaewon))
 
 ## System Architecture
 <img width="1128" alt="SystemArchitecture" src="https://user-images.githubusercontent.com/52397398/105130589-ab8f9580-5b2a-11eb-89c8-984564e0c7ae.jpg">
