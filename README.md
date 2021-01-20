@@ -1,5 +1,8 @@
 # OCR Plus Table
 
+## Awards and Honors
+* 오픈소스소프트웨어 개발자 대회 은상
+
 ## Description
 
 <p>문서를 사진 한번에 표와 텍스트를 추출하여 엑셀로 만들어주는 어플리케이션</p>
