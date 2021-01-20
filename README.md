@@ -5,10 +5,8 @@
 
 ## Team
 * FirstPenguin
-* [강찬혁](https://github.com/CHkkang)
-* [윤재민](
-* [정지성](
-* [조재원])
+
+* [강찬혁](https://github.com/CHkkang) [윤재민](https://github.com/JaeMinYooon) [정지성]() [조재원]()
 
 ## System Architecture
 <img width="1128" alt="SystemArchitecture" src="https://user-images.githubusercontent.com/52397398/105130589-ab8f9580-5b2a-11eb-89c8-984564e0c7ae.jpg">
