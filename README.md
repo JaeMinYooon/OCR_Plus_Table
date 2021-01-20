@@ -1,13 +1,18 @@
-# OCR_Plus_Table (OPT)
+# OCR Plus Table
 
+## Description
 
-## made by firstpenguin(JaeMinYooon, CHkkang, Jaaaewon, Jeongjibsa)
+<p>문서를 사진 한번에 표와 텍스트를 추출하여 엑셀로 만들어주는 어플리케이션</p>
 
+## System Environments:
 
+	* Android compileSdkVersion: 28
+	* Python version : 3.7
+	* Tensorflow2
 
-공개 sw 개발자 
-대회 은상
+## System dependencies:
 
-표와 글자를 읽어 엑셀화 시키는 프로젝트
-안드로이드 앱
-
+  * openCV 4.2.0
+  
+## License
+[Apache-2.0](https://choosealicense.com/licenses/apache-2.0/)
